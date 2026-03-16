@@ -40,7 +40,7 @@ linters:
       excludes:
         - G101
 
-issues:
-  exclude-dirs:
-    - docs
-    - node_modules
+  exclusions:
+    paths:
+      - docs
+      - node_modules

@@ -497,9 +497,9 @@ func TestHeaderTextTagList(t *testing.T) {
 			Title:    PlainText("Status"),
 			Template: Green,
 			TextTagList: []TextTag{
-				{Tag: "plain_text", Text: PlainText("Tag1"), Color: Blue},
-				{Tag: "plain_text", Text: PlainText("Tag2"), Color: Red},
-				{Tag: "plain_text", Text: PlainText("Tag3"), Color: Green},
+				{Text: PlainText("Tag1"), Color: Blue},
+				{Text: PlainText("Tag2"), Color: Red},
+				{Text: PlainText("Tag3"), Color: Green},
 			},
 		},
 		Body: Body{
@@ -526,10 +526,10 @@ func TestHeaderI18nTextTagList(t *testing.T) {
 			Title: PlainText("Status"),
 			I18nTextTagList: map[string][]TextTag{
 				"en_us": {
-					{Tag: "plain_text", Text: PlainText("English")},
+					{Text: PlainText("English")},
 				},
 				"zh_cn": {
-					{Tag: "plain_text", Text: PlainText("中文")},
+					{Text: PlainText("中文")},
 				},
 			},
 		},
@@ -2187,7 +2187,7 @@ func TestDeployNotificationCard(t *testing.T) {
 			Subtitle: PlainText("Production"),
 			Template: Green,
 			TextTagList: []TextTag{
-				{Tag: "plain_text", Text: PlainText("Success"), Color: Green},
+				{Text: PlainText("Success"), Color: Green},
 			},
 		},
 		Body: Body{

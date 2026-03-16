@@ -11,7 +11,7 @@
 //
 //	LARK_APP_ID       — App ID from Lark Open Platform
 //	LARK_APP_SECRET   — App Secret from Lark Open Platform
-//	LARK_CHAT_ID      — Chat ID to send test cards to
+//	LARK_OPEN_ID      — Open ID of the user to send test cards to
 package main
 
 import (
@@ -52,10 +52,10 @@ func main() {
 
 	appID := os.Getenv("LARK_APP_ID")
 	appSecret := os.Getenv("LARK_APP_SECRET")
-	chatID := os.Getenv("LARK_CHAT_ID")
+	openID := os.Getenv("LARK_OPEN_ID")
 
-	if appID == "" || appSecret == "" || chatID == "" {
-		fmt.Fprintln(os.Stderr, "LARK_APP_ID, LARK_APP_SECRET, and LARK_CHAT_ID are required")
+	if appID == "" || appSecret == "" || openID == "" {
+		fmt.Fprintln(os.Stderr, "LARK_APP_ID, LARK_APP_SECRET, and LARK_OPEN_ID are required")
 		fmt.Fprintln(os.Stderr, "Copy .env.example to .env and fill in your credentials")
 		os.Exit(1)
 	}
@@ -70,7 +70,7 @@ func main() {
 	for i, tc := range cases {
 		fmt.Printf("[%d/%d] %s ... ", i+1, len(cases), tc.Name)
 
-		err := sendCard(client, chatID, tc.Card)
+		err := sendCard(client, openID, tc.Card)
 		if err != nil {
 			fmt.Printf("FAIL: %v\n", err)
 			failed++
@@ -90,7 +90,7 @@ func main() {
 }
 
 // sendCard marshals the card and sends it via the Lark IM API with retry on rate limit.
-func sendCard(client *lark.Client, chatID string, card larkcard.Card) error {
+func sendCard(client *lark.Client, openID string, card larkcard.Card) error {
 	cardJSON, err := card.JSON()
 	if err != nil {
 		return fmt.Errorf("marshal card: %w", err)
@@ -101,10 +101,10 @@ func sendCard(client *lark.Client, chatID string, card larkcard.Card) error {
 	for attempt := range maxRetries {
 		resp, err := client.Im.Message.Create(context.Background(),
 			larkim.NewCreateMessageReqBuilder().
-				ReceiveIdType(larkim.ReceiveIdTypeChatId).
+				ReceiveIdType(larkim.ReceiveIdTypeOpenId).
 				Body(larkim.NewCreateMessageReqBodyBuilder().
 					MsgType(larkim.MsgTypeInteractive).
-					ReceiveId(chatID).
+					ReceiveId(openID).
 					Content(content).
 					Build()).
 				Build(),
@@ -187,8 +187,8 @@ func buildTestCases() []testCase {
 					Title:    larkcard.PlainText("E2E Test: Header Tags"),
 					Template: larkcard.Green,
 					TextTagList: []larkcard.TextTag{
-						{Tag: "plain_text", Text: larkcard.PlainText("Tag1"), Color: larkcard.Blue},
-						{Tag: "plain_text", Text: larkcard.PlainText("Tag2"), Color: larkcard.Red},
+						{Text: larkcard.PlainText("Tag1"), Color: larkcard.Blue},
+						{Text: larkcard.PlainText("Tag2"), Color: larkcard.Red},
 					},
 				},
 				Body: larkcard.Body{
@@ -544,7 +544,7 @@ func buildKitchenSinkCard() larkcard.Card {
 			Subtitle: larkcard.PlainText("Multiple component types in one card"),
 			Template: larkcard.Purple,
 			TextTagList: []larkcard.TextTag{
-				{Tag: "plain_text", Text: larkcard.PlainText("e2e"), Color: larkcard.Green},
+				{Text: larkcard.PlainText("e2e"), Color: larkcard.Green},
 			},
 		},
 		Body: larkcard.Body{

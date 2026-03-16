@@ -1,5 +1,7 @@
 package lark
 
+import "encoding/json"
+
 // Card represents a Lark Card JSON v2.0 structure.
 type Card struct {
 	Config   *Config   `json:"config,omitempty"`
@@ -68,8 +70,19 @@ type Header struct {
 
 // TextTag represents a suffix tag on the header title.
 type TextTag struct {
-	Tag       string `json:"tag"`
 	ElementID string `json:"element_id,omitempty"`
 	Text      *Text  `json:"text,omitempty"`
 	Color     string `json:"color,omitempty"`
+}
+
+// MarshalJSON injects "tag": "text_tag" into the JSON output.
+func (t TextTag) MarshalJSON() ([]byte, error) {
+	type textTagAlias TextTag
+	return json.Marshal(struct {
+		Tag string `json:"tag"`
+		textTagAlias
+	}{
+		Tag:          "text_tag",
+		textTagAlias: textTagAlias(t),
+	})
 }

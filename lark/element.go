@@ -12,6 +12,7 @@ type Element interface {
 // by injecting the "tag" field from each element's cardTag() method.
 type Elements []Element
 
+// MarshalJSON implements json.Marshaler, injecting the "tag" field into each element.
 func (e Elements) MarshalJSON() ([]byte, error) {
 	if e == nil {
 		return []byte("null"), nil

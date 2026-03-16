@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+const schemaV2 = "2.0"
+
 // ---- helpers for tests ----
 
 // mustMarshalCard marshals a card and returns the parsed map.
@@ -60,7 +62,7 @@ func TestSimpleCard(t *testing.T) {
 
 	m := mustMarshalCard(t, card)
 
-	if m["schema"] != "2.0" {
+	if m["schema"] != schemaV2 {
 		t.Errorf("schema = %v, want 2.0", m["schema"])
 	}
 
@@ -135,7 +137,7 @@ func TestComplexCard(t *testing.T) {
 
 	m := mustMarshalCard(t, card)
 
-	if m["schema"] != "2.0" {
+	if m["schema"] != schemaV2 {
 		t.Errorf("schema = %v, want 2.0", m["schema"])
 	}
 
@@ -2233,7 +2235,7 @@ func TestDeployNotificationCard(t *testing.T) {
 	}
 
 	m := mustMarshalCard(t, card)
-	if m["schema"] != "2.0" {
+	if m["schema"] != schemaV2 {
 		t.Error("missing schema")
 	}
 
@@ -2434,7 +2436,7 @@ func TestCardWithoutHeader(t *testing.T) {
 	}
 
 	m := mustMarshalCard(t, card)
-	if m["schema"] != "2.0" {
+	if m["schema"] != schemaV2 {
 		t.Error("schema missing")
 	}
 
@@ -2489,7 +2491,7 @@ func TestInteractiveContainerInsideColumn(t *testing.T) {
 				&ColumnSet{
 					Columns: []Column{
 						{
-							Width: "weighted",
+							Width:  "weighted",
 							Weight: 1,
 							Elements: Elements{
 								&InteractiveContainer{
@@ -2533,7 +2535,7 @@ func TestMinimalCard(t *testing.T) {
 	if err := json.Unmarshal(data, &m); err != nil {
 		t.Fatal(err)
 	}
-	if m["schema"] != "2.0" {
+	if m["schema"] != schemaV2 {
 		t.Error("schema should always be 2.0")
 	}
 }
@@ -2572,8 +2574,12 @@ func TestJSONRoundTrip(t *testing.T) {
 
 	// Both should produce valid JSON with same structure.
 	var m1, m2 map[string]any
-	json.Unmarshal(data1, &m1)
-	json.Unmarshal(data2, &m2)
+	if err := json.Unmarshal(data1, &m1); err != nil {
+		t.Fatal(err)
+	}
+	if err := json.Unmarshal(data2, &m2); err != nil {
+		t.Fatal(err)
+	}
 
 	// Compare key counts at top level.
 	if len(m1) != len(m2) {

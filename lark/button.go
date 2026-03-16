@@ -1,5 +1,7 @@
 package lark
 
+import "encoding/json"
+
 // Button is an interactive button component (tag: "button").
 type Button struct {
 	ElementID      string         `json:"element_id,omitempty"`
@@ -23,6 +25,20 @@ type Button struct {
 }
 
 func (*Button) cardTag() string { return "button" }
+
+// MarshalJSON injects "tag": "button" into the JSON output.
+// This ensures buttons have their tag even when serialized outside of Elements
+// (e.g. in CheckerButtonArea.Buttons which is []Button).
+func (b Button) MarshalJSON() ([]byte, error) {
+	type buttonAlias Button
+	return json.Marshal(struct {
+		Tag string `json:"tag"`
+		buttonAlias
+	}{
+		Tag:         "button",
+		buttonAlias: buttonAlias(b),
+	})
+}
 
 // Confirm configures a secondary confirmation dialog.
 type Confirm struct {

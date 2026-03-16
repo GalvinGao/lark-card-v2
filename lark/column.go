@@ -1,5 +1,7 @@
 package lark
 
+import "encoding/json"
+
 // ColumnSet arranges columns horizontally (tag: "column_set").
 type ColumnSet struct {
 	ElementID         string   `json:"element_id,omitempty"`
@@ -29,6 +31,18 @@ type Column struct {
 	Margin            string   `json:"margin,omitempty"`
 	Action            *Action  `json:"action,omitempty"`
 	Elements          Elements `json:"elements,omitempty"`
+}
+
+// MarshalJSON injects "tag": "column" into the JSON output.
+func (c Column) MarshalJSON() ([]byte, error) {
+	type columnAlias Column
+	return json.Marshal(struct {
+		Tag string `json:"tag"`
+		columnAlias
+	}{
+		Tag:         "column",
+		columnAlias: columnAlias(c),
+	})
 }
 
 // Action wraps a multi_url for column/column_set click actions.

@@ -1,0 +1,43 @@
+linters:
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+    - unused
+    - gosimple
+    - ineffassign
+    - typecheck
+    - gofmt
+    - goimports
+    - misspell
+    - revive
+    - gosec
+    - unconvert
+    - goconst
+    - prealloc
+
+linters-settings:
+  revive:
+    rules:
+      - name: exported
+        arguments:
+          - checkPrivateReceivers
+      - name: blank-imports
+      - name: context-as-argument
+      - name: error-return
+      - name: error-strings
+      - name: increment-decrement
+      - name: var-naming
+      - name: package-comments
+        disabled: true
+  goconst:
+    min-len: 3
+    min-occurrences: 5
+  gosec:
+    excludes:
+      - G101
+
+issues:
+  exclude-dirs:
+    - docs
+    - node_modules

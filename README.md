@@ -68,6 +68,35 @@ All 25 Lark Card v2.0 component types are supported:
 | Container | `ColumnSet`/`Column`, `Form`, `InteractiveContainer`, `CollapsiblePanel` |
 | Interactive | `Button`, `Input`, `SelectStatic`, `MultiSelectStatic`, `SelectPerson`, `MultiSelectPerson`, `DatePicker`, `TimePicker`, `DateTimePicker`, `Overflow`, `ImagePicker`, `Checker` |
 
+## Agent Skills
+
+This repo ships [agent skills](https://skills.sh) that teach coding agents (Claude Code, Cursor, Codex, etc.) how to compose Lark Card v2 JSON.
+
+### Install
+
+```bash
+npx skills add GalvinGao/lark-card-v2
+```
+
+### Available Skills
+
+| Skill | Description |
+|-------|-------------|
+| `larkcard2-compose-display` | Card structure, content components (text, markdown, image, divider, person, chart, table), containers (column set, form, interactive container, collapsible panel), and color/text-size references |
+| `larkcard2-compose-interactable` | Interactive components — buttons, inputs, dropdowns, person pickers, date/time pickers, overflow menus, image pickers, and checkers |
+
+### Install a specific skill
+
+```bash
+npx skills add GalvinGao/lark-card-v2 --skill larkcard2-compose-display
+```
+
+### Install to a specific agent
+
+```bash
+npx skills add GalvinGao/lark-card-v2 -a claude-code
+```
+
 ## License
 
 MIT

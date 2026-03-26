@@ -1,20 +1,20 @@
-# 富文本 (Markdown)
+# Rich Text (Markdown)
 
 > Source: <https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/content-components/rich-text>
 
-JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情、表格、图片、代码块、分割线等元素。
+The rich text (Markdown) component in JSON 2.0 cards supports rendering headings, emojis, tables, images, code blocks, dividers, and more.
 
-> **注意**：本文档介绍富文本组件的 JSON 2.0 结构。历史 JSON 1.0 结构参考[富文本（Markdown）](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-components/content-components/rich-text)。
+> **Note:** This document covers the JSON 2.0 structure. For the legacy JSON 1.0 structure, see [Rich Text (Markdown)](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-components/content-components/rich-text).
 
-## 注意事项
+## Notes
 
-富文本 JSON 2.0 结构不再支持差异化跳转语法。请改用含图标的链接语法：
+The JSON 2.0 structure no longer supports the differentiated jump link syntax. Use the icon link syntax instead:
 
 ```
-<link icon='chat_outlined' url='https://applink.larksuite.com/client/chat/xxxxx' pc_url='' ios_url='' android_url=''>差异化链接</link>
+<link icon='chat_outlined' url='https://applink.larksuite.com/client/chat/xxxxx' pc_url='' ios_url='' android_url=''>Link text</link>
 ```
 
-已废弃的语法：
+Deprecated syntax:
 
 ```json
 {
@@ -27,11 +27,11 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
       "android_url": "xxx"
     }
   },
-  "content": "[差异化跳转]($urlVal)"
+  "content": "[Differentiated jump]($urlVal)"
 }
 ```
 
-## JSON 结构
+## JSON Structure
 
 ```json
 {
@@ -42,7 +42,7 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
         "tag": "markdown",
         "element_id": "custom_id",
         "margin": "0px 0px 0px 0px",
-        "content": "人员<person id='ou_449b53ad6aee526f7ed311b216aabcef' show_name=true show_avatar=true style='normal'></person>",
+        "content": "Person <person id='ou_449b53ad6aee526f7ed311b216aabcef' show_name=true show_avatar=true style='normal'></person>",
         "text_size": "normal",
         "text_align": "left",
         "icon": {
@@ -57,23 +57,23 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
 }
 ```
 
-## 字段说明
+## Fields
 
-| 字段 | 必填 | 类型 | 默认值 | 说明 |
-|------|------|------|--------|------|
-| `tag` | 是 | String | — | 固定值 `markdown` |
-| `element_id` | 否 | String | — | 组件唯一标识（JSON 2.0 新增）。同一卡片内全局唯一，仅字母/数字/下划线，字母开头，≤20 字符。用于[组件相关接口](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/cardkit-v1/card-element/create)。 |
-| `margin` | 否 | String | `0` | 外边距，范围 [-99,99]px。支持单值 `"10px"`、双值 `"4px 0"`、四值 `"4px 0 4px 0"`。 |
-| `content` | 是 | String | — | Markdown 文本内容。支持的语法见下文。 |
-| `text_align` | 否 | String | `left` | 对齐方式：`left` / `center` / `right` |
-| `text_size` | 否 | String | `normal` | 文本大小，可选值见下方「文本字号枚举」。也支持自定义字号名称。 |
-| `icon` | 否 | Object | — | 前缀图标 |
-| `icon.tag` | 否 | String | — | `standard_icon`（图标库）或 `custom_icon`（自定义图片） |
-| `icon.token` | 否 | String | — | 图标 token，`tag` 为 `standard_icon` 时生效。枚举值见[图标库](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-icons)。 |
-| `icon.color` | 否 | String | — | 图标颜色，`tag` 为 `standard_icon` 时生效。枚举值见[颜色枚举值](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-fields-related-to-color)。 |
-| `icon.img_key` | 否 | String | — | 自定义图标的图片 key，`tag` 为 `custom_icon` 时生效。通过[上传图片](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/create)接口获取。 |
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `tag` | Yes | String | — | Fixed value `markdown`. |
+| `element_id` | No | String | — | Unique component identifier (new in JSON 2.0). Must be globally unique within the card, letters/numbers/underscores only, start with a letter, max 20 chars. Used with the [component API](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/cardkit-v1/card-element/create). |
+| `margin` | No | String | `0` | Outer margin, range [-99,99]px. Accepts single `"10px"`, double `"4px 0"`, or quad `"4px 0 4px 0"`. |
+| `content` | Yes | String | — | Markdown text content. See supported syntax below. |
+| `text_align` | No | String | `left` | Text alignment: `left` / `center` / `right` |
+| `text_size` | No | String | `normal` | Text size. See "Text Size Values" below. Also accepts custom size names. |
+| `icon` | No | Object | — | Prefix icon. |
+| `icon.tag` | No | String | — | `standard_icon` (icon library) or `custom_icon` (custom image). |
+| `icon.token` | No | String | — | Icon token. Only effective when `tag` is `standard_icon`. Values listed in the [icon library](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-icons). |
+| `icon.color` | No | String | — | Icon color. Only effective when `tag` is `standard_icon`. Values listed in [color enumerations](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-fields-related-to-color). |
+| `icon.img_key` | No | String | — | Custom icon image key. Only effective when `tag` is `custom_icon`. Obtain via the [Upload Image](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/create) API. |
 
-## 示例
+## Example
 
 ```json
 {
@@ -82,34 +82,34 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
     "elements": [
       {
         "tag": "markdown",
-        "content": "# 一级标题",
+        "content": "# Heading 1",
         "margin": "0px 0px 0px 0px",
         "text_align": "left",
         "text_size": "normal"
       },
       {
         "tag": "markdown",
-        "content": "标准emoji 😁😢🌞💼🏆❌✅\nLarkemoji :OK::THUMBSUP:\n*斜体* **粗体** ~~删除线~~ \n这是红色文本</font>\n<text_tag color=\"blue\">标签</text_tag>\n[文字链接](https://open.feishu.cn/document/server-docs/im-v1/message-reaction/emojis-introduce)\n<link icon='chat_outlined' url='https://open.feishu.cn' pc_url='' ios_url='' android_url=''>带图标的链接</link>\n<at id=all></at>\n- 无序列表1\n    - 无序列表 1.1\n- 无序列表2\n1. 有序列表1\n    1. 有序列表 1.1\n2. 有序列表2\n```JSON\n{\"This is\": \"JSON demo\"}\n```"
+        "content": "Standard emoji 😁😢🌞💼🏆❌✅\nLark emoji :OK::THUMBSUP:\n*italic* **bold** ~~strikethrough~~\n<font color='red'>Red text</font>\n<text_tag color=\"blue\">Tag</text_tag>\n[Text link](https://open.feishu.cn/document/server-docs/im-v1/message-reaction/emojis-introduce)\n<link icon='chat_outlined' url='https://open.feishu.cn' pc_url='' ios_url='' android_url=''>Link with icon</link>\n<at id=all></at>\n- Unordered item 1\n    - Nested item 1.1\n- Unordered item 2\n1. Ordered item 1\n    1. Nested item 1.1\n2. Ordered item 2\n```JSON\n{\"This is\": \"JSON demo\"}\n```"
       },
       {
         "tag": "markdown",
-        "content": "行内引用`code`"
+        "content": "Inline code `code`"
       },
       {
         "tag": "markdown",
-        "content": "数字角标，支持 1-99 数字<number_tag background_color='grey' font_color='white' url='https://open.larksuite.com' pc_url='https://open.larksuite.com' android_url='https://open.larksuite.com' ios_url='https://open.larksuite.com'>1</number_tag>"
+        "content": "Number badge <number_tag background_color='grey' font_color='white' url='https://open.larksuite.com' pc_url='https://open.larksuite.com' android_url='https://open.larksuite.com' ios_url='https://open.larksuite.com'>1</number_tag>"
       },
       {
         "tag": "markdown",
-        "content": "默认数字角标展示<number_tag>1</number_tag>"
+        "content": "Default number badge <number_tag>1</number_tag>"
       },
       {
         "tag": "markdown",
-        "content": "人员<person id='ou_449b53ad6aee526f7ed311b216a8f88f' show_name=true show_avatar=true style='normal'></person>"
+        "content": "Person <person id='ou_449b53ad6aee526f7ed311b216a8f88f' show_name=true show_avatar=true style='normal'></person>"
       },
       {
         "tag": "markdown",
-        "content": "> 这是一段引用文字\n引用内换行 \n"
+        "content": "> This is a blockquote\nLine break within quote\n"
       }
     ]
   }
@@ -118,138 +118,138 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
 
 ---
 
-## 支持的 Markdown 语法
+## Supported Markdown Syntax
 
-[卡片 JSON 2.0 结构](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-structure)支持除 `HTMLBlock` 外所有标准 Markdown 语法及部分 HTML 语法。标准语法参考 [CommonMark Spec](https://spec.commonmark.org/0.31.2/) 和 [CommonMark playground](https://spec.commonmark.org/dingus/)。
+[Card JSON 2.0](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-structure) supports all standard Markdown syntax (except `HTMLBlock`) and some HTML syntax. For standard syntax, see [CommonMark Spec](https://spec.commonmark.org/0.31.2/) and [CommonMark playground](https://spec.commonmark.org/dingus/).
 
-**与 CommonMark 的差异：**
-- 一个 Enter = 软换行（可能被忽略）；两个 Enter = 硬换行（始终新行）。
-- 支持的 HTML 标签：`<br>` `<br/>` `<hr>` `<hr/>` `<person>` `<local_datetime>` `<at>` `<a>` `<text_tag>` `<raw>` `<link>` `<font>`（支持嵌套）。
+**Differences from CommonMark:**
+- Single Enter = soft break (may be ignored by renderer); double Enter = hard break (always renders as new line).
+- Supported HTML tags: `<br>` `<br/>` `<hr>` `<hr/>` `<person>` `<local_datetime>` `<at>` `<a>` `<text_tag>` `<raw>` `<link>` `<font>` (supports nesting).
 
 ---
 
-### 换行
+### Line Breaks
 
 ```
-第一行<br />第二行
+Line 1<br />Line 2
 ```
 
-在卡片 JSON 中也可用 `\n` 换行；在搭建工具中可用回车键。
+In card JSON you can also use `\n`; in the building tool, use the Enter key.
 
-### 斜体 / 粗体 / 删除线
+### Italic / Bold / Strikethrough
 
 ```
-*斜体*
-**粗体** 或 __粗体__
-~~删除线~~
+*italic*
+**bold** or __bold__
+~~strikethrough~~
 ```
 
-> 不要连续使用 4 个 `*` 或 `_`，语法不规范可能导致渲染错误。粗体效果未显示时，确保前后保留空格。
+> Do not use 4 consecutive `*` or `_` — non-standard usage may cause rendering errors. If bold doesn't render, ensure there is a space before and after the syntax.
 
-### @指定人
+### @Mention
 
 ```html
 <at id=open_id></at>
 <at id=user_id></at>
 <at ids=id_01,id_02,xxx></at>
 <at email=test@email.com></at>
-<at id=all></at>       <!-- @所有人，需群主开启权限 -->
+<at id=all></at>       <!-- @everyone — requires group owner permission -->
 ```
 
-- 被 @ 的用户将收到提及通知（转发的卡片除外）。
-- 要展示用户名/头像/名片但不发通知，用[人员](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/content-components/user-profile)或[人员列表](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/content-components/user-list)组件。
-- [自定义机器人](https://open.larksuite.com/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN)仅支持 `open_id`、`user_id`。
-- 获取 user_id / open_id 参考[如何获取不同的用户 ID](https://open.larksuite.com/document/home/user-identity-introduction/open-id)。
+- Mentioned users receive a notification (except on forwarded cards).
+- To display username/avatar/profile card without notification, use the [Person](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/content-components/user-profile) or [Person List](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/content-components/user-list) component.
+- [Custom bots](https://open.larksuite.com/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN) only support `open_id` and `user_id`.
+- See [How to get user IDs](https://open.larksuite.com/document/home/user-identity-introduction/open-id).
 
-### 超链接 / 文字链接
+### Hyperlinks / Text Links
 
 ```markdown
-[开放平台](https://open.larksuite.com/)
+[Open Platform](https://open.larksuite.com/)
 <a href='https://open.larksuite.com'></a>
 ```
 
-超链接必须包含 schema（仅支持 HTTP/HTTPS），文本颜色不支持自定义。
+Links must include a schema (only HTTP/HTTPS supported). Link text color cannot be customized.
 
-### 含图标的链接
+### Icon Links
 
 ```html
-<link icon='chat_outlined' url='https://open.larksuite.com' pc_url='' ios_url='' android_url=''>战略研讨会</link>
+<link icon='chat_outlined' url='https://open.larksuite.com' pc_url='' ios_url='' android_url=''>Strategy meeting</link>
 ```
 
-- `icon`：图标库中的图标 token，颜色固定蓝色。可选。枚举值见[图标库](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-icons)。
-- `url`：默认链接地址。必填。
-- `pc_url` / `ios_url` / `android_url`：各端链接，优先级高于 `url`。可选。
+- `icon`: Icon token from the icon library, color is fixed to blue. Optional. See [icon library](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-icons).
+- `url`: Default link URL. Required.
+- `pc_url` / `ios_url` / `android_url`: Per-platform URLs, take priority over `url`. Optional.
 
-### 可点击的电话号码
+### Clickable Phone Number
 
 ```markdown
-[显示文案](tel://电话号码)
+[Display text](tel://phone-number)
 ```
 
-仅在移动端生效。
+Only works on mobile.
 
-### 彩色文本
+### Colored Text
 
 ```html
-<font color='red'>红色文本</font>
-<font color='green'>绿色文本</font>
+<font color='red'>Red text</font>
+<font color='green'>Green text</font>
 ```
 
-- `color` 支持 `default` 及所有[颜色枚举值](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-fields-related-to-color)和 RGBA 自定义颜色。
-- 不支持对链接文本生效。
-- `<font>` 支持嵌套其他标签（`<at>` `<a>` `<link>` `<local_datetime>` `<font>`）。
+- `color` supports `default`, all [color enumeration values](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/enumerations-for-fields-related-to-color), and RGBA custom colors.
+- Does not apply to link text.
+- `<font>` supports nesting other tags (`<at>` `<a>` `<link>` `<local_datetime>` `<font>`).
 
-### 图片
+### Images
 
 ```markdown
 ![hover_text](image_key)
 ```
 
-- `hover_text`：PC 端悬浮时展示的文案。
-- `image_key`：通过[上传图片](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/create)接口获取。
+- `hover_text`: Text shown on hover (PC only).
+- `image_key`: Obtained via the [Upload Image](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/create) API.
 
-### 分割线
+### Dividers
 
 ```markdown
 <hr>
 ---
 ```
 
-推荐使用 `<hr>`。分割线必须单独一行使用，前后需有换行符。
+`<hr>` is recommended. The divider must be on its own line with line breaks before and after.
 
-### 标题
-
-```markdown
-# 一级标题    (26px)
-## 二级标题   (22px)
-### 三级标题  (20px)
-#### 四级标题 (18px)
-##### 五级    (17px)
-###### 六级   (14px)
-```
-
-### 引用 / 行内引用
+### Headings
 
 ```markdown
-> 这是一段引用文字
-`行内代码`
+# Heading 1    (26px)
+## Heading 2   (22px)
+### Heading 3  (20px)
+#### Heading 4 (18px)
+##### Heading 5 (17px)
+###### Heading 6 (14px)
 ```
 
-### 列表
+### Blockquotes / Inline Code
 
 ```markdown
-- 无序列表1
-    - 无序列表 1.1
-- 无序列表2
-
-1. 有序列表1
-    1. 有序列表 1.1
-2. 有序列表2
+> This is a blockquote
+`inline code`
 ```
 
-序号需在行首使用，4 个空格 = 一层缩进。JSON 中需添加 `\n` 换行符。
+### Lists
 
-### 表格
+```markdown
+- Unordered item 1
+    - Nested item 1.1
+- Unordered item 2
+
+1. Ordered item 1
+    1. Nested item 1.1
+2. Ordered item 2
+```
+
+Items must start at the beginning of a line. 4 spaces = one indent level. In JSON, use `\n` for line breaks.
+
+### Tables
 
 ```markdown
 | Syntax | Description |
@@ -257,11 +257,11 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
 | Paragraph | Text |
 ```
 
-- 除标题行外，最多展示五行数据，超出分页展示。
-- 仅支持 JSON 2.0 结构；单个富文本组件最多 4 个表格。
-- 不支持设置列宽等，需要更多控制请用[表格](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/content-components/table)组件。
+- Maximum 5 data rows (excluding header); excess rows are paginated.
+- Only supported in JSON 2.0; max 4 tables per rich text component.
+- Column width etc. cannot be configured — use the [Table](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/content-components/table) component for more control.
 
-### 代码块
+### Code Blocks
 
 ````markdown
 ```JSON
@@ -269,88 +269,88 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
 ```
 ````
 
-支持指定编程语言（大小写不敏感），未指定默认 Plain Text。四个及以上空格的[缩进式代码块](https://spec.commonmark.org/0.30/#indented-code-blocks)也会触发代码块效果。
+Specify a language (case-insensitive); defaults to Plain Text if omitted. Four or more leading spaces ([indented code blocks](https://spec.commonmark.org/0.30/#indented-code-blocks)) also trigger code block rendering.
 
-### Lark 表情
+### Lark Emoji
 
 ```
 :DONE:  :THUMBSUP:
 ```
 
-支持的 Emoji Key 列表参考[表情文案说明](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/emojis-introduce)。
+See the [emoji reference](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/emojis-introduce) for supported emoji keys.
 
-### 标签
+### Text Tags
 
 ```html
-<text_tag color='red'>标签文本</text_tag>
+<text_tag color='red'>Tag text</text_tag>
 ```
 
-`color` 枚举值：`neutral` `blue` `turquoise` `lime` `orange` `violet` `indigo` `wathet` `green` `yellow` `red` `purple` `carmine`
+`color` values: `neutral` `blue` `turquoise` `lime` `orange` `violet` `indigo` `wathet` `green` `yellow` `red` `purple` `carmine`
 
-### 数字角标
+### Number Badges
 
 ```html
 <number_tag>1</number_tag>
 <number_tag background_color='grey' font_color='white' url='https://...' pc_url='...' android_url='...' ios_url='...'>99</number_tag>
 ```
 
-支持 0-99 之间的数字。`background_color` / `font_color` / `url` / `pc_url` / `ios_url` / `android_url` 均为可选。
+Supports numbers 0-99. `background_color` / `font_color` / `url` / `pc_url` / `ios_url` / `android_url` are all optional.
 
-### 人员
+### Person
 
 ```html
 <person id='user_id' show_name=true show_avatar=true style='normal'></person>
 ```
 
-- `id`：用户 ID（支持 open_id / union_id / user_id）。不填或错误时展示"未知用户"。
-- `show_name`：是否展示用户名。默认 `true`。
-- `show_avatar`：是否展示头像。默认 `true`。
-- `style`：`normal`（默认）或 `capsule`（胶囊样式）。
+- `id`: User ID (supports open_id / union_id / user_id). Shows "Unknown user" fallback if empty or invalid.
+- `show_name`: Whether to show the username. Default `true`.
+- `show_avatar`: Whether to show the avatar. Default `true`.
+- `style`: `normal` (default) or `capsule`.
 
-### 国际化时间
+### Localized Date/Time
 
 ```html
 <local_datetime millisecond='' format_type='date_num' link='https://www.feishu.com'></local_datetime>
 ```
 
-- `millisecond`：Unix 毫秒时间戳。不填则默认使用发送/发布时间。
-- `format_type`：时间格式，枚举值：
+- `millisecond`: Unix millisecond timestamp. Defaults to send/publish time if empty.
+- `format_type`: Display format:
   - `date_num` — `2019-03-15`
-  - `date_short` — `3月15日` / `Mar 15`
-  - `date` — `2019年3月15日` / `Mar 15, 2019`
-  - `week` — `星期二` / `Tuesday`
-  - `week_short` — `周二` / `Tue`
+  - `date_short` — `Mar 15`
+  - `date` — `Mar 15, 2019`
+  - `week` — `Tuesday`
+  - `week_short` — `Tue`
   - `time` — `13:42`
   - `time_sec` — `13:42:53`
   - `timezone` — `GMT+8:00`
-- `link`：点击时间时跳转的链接。
+- `link`: URL to open when the time is clicked.
 
 ---
 
-## 参考
+## Reference
 
-### 特殊字符转义
+### Special Character Escaping
 
-命中 Markdown 特殊字符（`*` `~` `>` `<` 等）时需 HTML 转义。格式：`&#实体编号;`。完整列表参考 [HTML 转义标准](https://www.w3school.com.cn/charsets/ref_html_8859.asp)。
+Markdown special characters (`*` `~` `>` `<` etc.) must be HTML-escaped. Format: `&#entity;`. Full list: [HTML escape reference](https://www.w3school.com.cn/charsets/ref_html_8859.asp).
 
-常用转义：`&nbsp;`(不换行空格) `&ensp;`(半角空格) `&emsp;`(全角空格) `&#62;`(>) `&#60;`(<) `&#42;`(\*) `&#91;`([) `&#93;`(]) `&#40;`(() `&#41;`()) `&#35;`(#) `&#96;`(\`) `&#92;`(\\) `&#47;`(/) `&#45;`(-) `&#33;`(!) `&#43;`(+) `&#58;`(:) `&#34;`(") `&#39;`(') `&#36;`($) `&#95;`(\_)
+Common escapes: `&nbsp;`(non-breaking space) `&ensp;`(en space) `&emsp;`(em space) `&#62;`(>) `&#60;`(<) `&#42;`(\*) `&#91;`([) `&#93;`(]) `&#40;`(() `&#41;`()) `&#35;`(#) `&#96;`(\`) `&#92;`(\\) `&#47;`(/) `&#45;`(-) `&#33;`(!) `&#43;`(+) `&#58;`(:) `&#34;`(") `&#39;`(') `&#36;`($) `&#95;`(\_)
 
-### 代码块支持的编程语言
+### Supported Code Block Languages
 
-大小写不敏感：`plain_text` `abap` `ada` `apache` `apex` `assembly` `bash` `c` `c_sharp` `cpp` `cmake` `cobol` `coffee_script` `css` `d` `dart` `delphi` `diff` `django` `docker_file` `erlang` `fortran` `gherkin` `go` `graphql` `groovy` `haskell` `html` `htmlbars` `http` `java` `javascript` `json` `julia` `kotlin` `latex` `lisp` `lua` `makefile` `markdown` `matlab` `nginx` `objective_c` `opengl_shading_language` `perl` `php` `powershell` `prolog` `properties` `protobuf` `python` `r` `ruby` `rust` `sas` `scala` `scheme` `scss` `shell` `solidity` `sql` `swift` `thrift` `toml` `typescript` `vbscript` `visual_basic` `xml` `yaml`
+Case-insensitive: `plain_text` `abap` `ada` `apache` `apex` `assembly` `bash` `c` `c_sharp` `cpp` `cmake` `cobol` `coffee_script` `css` `d` `dart` `delphi` `diff` `django` `docker_file` `erlang` `fortran` `gherkin` `go` `graphql` `groovy` `haskell` `html` `htmlbars` `http` `java` `javascript` `json` `julia` `kotlin` `latex` `lisp` `lua` `makefile` `markdown` `matlab` `nginx` `objective_c` `opengl_shading_language` `perl` `php` `powershell` `prolog` `properties` `protobuf` `python` `r` `ruby` `rust` `sas` `scala` `scheme` `scss` `shell` `solidity` `sql` `swift` `thrift` `toml` `typescript` `vbscript` `visual_basic` `xml` `yaml`
 
-### 文本字号枚举
+### Text Size Values
 
-| 枚举值 | 含义 | PC 端 | 移动端 |
-|--------|------|-------|--------|
-| `heading-0` | 特大标题 | 30px | 26px |
-| `heading-1` | 一级标题 | 24px | 24px |
-| `heading-2` | 二级标题 | 20px | 20px |
-| `heading-3` | 三级标题 | 18px | 17px |
-| `heading-4` | 四级标题 | 16px | 16px |
-| `heading` | 标题 | 16px | 16px |
-| `normal` | 正文 | 14px | 14px |
-| `notation` | 辅助信息 | 12px | 12px |
+| Value | Label | PC | Mobile |
+|-------|-------|----|--------|
+| `heading-0` | Extra-large heading | 30px | 26px |
+| `heading-1` | Heading 1 | 24px | 24px |
+| `heading-2` | Heading 2 | 20px | 20px |
+| `heading-3` | Heading 3 | 18px | 17px |
+| `heading-4` | Heading 4 | 16px | 16px |
+| `heading` | Heading | 16px | 16px |
+| `normal` | Body | 14px | 14px |
+| `notation` | Caption | 12px | 12px |
 | `xxxx-large` | — | 30px | 26px |
 | `xxx-large` | — | 24px | 24px |
 | `xx-large` | — | 20px | 20px |
@@ -360,11 +360,11 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
 | `small` | — | 12px | 12px |
 | `x-small` | — | 10px | 10px |
 
-填写其它值时，卡片将以 `normal` 字号展示。
+Unrecognized values fall back to `normal`.
 
-### 为移动端和桌面端定义不同字号
+### Custom Font Sizes for Mobile and Desktop
 
-在 `config.style.text_size` 中添加自定义字号，然后在组件的 `text_size` 属性中引用：
+Define custom sizes in `config.style.text_size`, then reference them in component `text_size`:
 
 ```json
 {
@@ -382,19 +382,19 @@ JSON 2.0 结构卡片的富文本（Markdown）组件支持渲染标题、表情
 }
 ```
 
-在组件中使用：
+Usage in a component:
 
 ```json
 {
   "tag": "markdown",
   "text_size": "cus-0",
-  "content": "自定义字号文本"
+  "content": "Custom font size text"
 }
 ```
 
-| 字段 | 必填 | 类型 | 说明 |
-|------|------|------|------|
-| `text_size.{name}` | 否 | Object | 自定义字号对象，名称自定义（如 `cus-0`） |
-| `text_size.{name}.default` | 否 | String | 旧版客户端兜底字号。建议填写。 |
-| `text_size.{name}.pc` | 否 | String | 桌面端字号 |
-| `text_size.{name}.mobile` | 否 | String | 移动端字号（部分枚举值大小与 PC 端有差异） |
+| Field | Required | Type | Description |
+|-------|----------|------|-------------|
+| `text_size.{name}` | No | Object | Custom size object. Name is user-defined (e.g. `cus-0`). |
+| `text_size.{name}.default` | No | String | Fallback size for older clients. Recommended. |
+| `text_size.{name}.pc` | No | String | Desktop font size. |
+| `text_size.{name}.mobile` | No | String | Mobile font size (some values differ from PC). |

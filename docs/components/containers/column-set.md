@@ -1,67 +1,49 @@
-# Column set
+# Column Set
 
 > Source: <https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/containers/column-set>
 
-Developer GuidesMessage cardsBuild card with JSONCard JSON 2.0 version componentscontainersColumn set
-Column set
-Copy Page
-Last updated on 2025-06-27
-The contents of this article
-Precautions
-Application scenarios
-Nesting rules
-Component properties
-JSON structure
-Column set fields description
-Column field description
-Demo example
+Column components provide layout capabilities within a card, offering properties such as alignment, container width, and interaction methods. You can use column components to horizontally arrange multiple column containers, freely combining images and text to create cards rich in graphics — such as data tables, product or article lists, travel information, etc.
 
-Column components provide the capability for layout within a card, offering properties such as alignment, container width, and interaction methods. You can use column components to horizontally arrange multiple column containers, freely combining images and text within them to create cards rich in graphics and text, and user-friendly, such as data tables, product or article lists, travel information, etc.
+This document describes the JSON 2.0 structure of the column component. For the historical JSON 1.0 structure, refer to [Column set](https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/containers/column-set).
 
-This document introduces the JSON 2.0 structure of the column component. To view the historical JSON 1.0 structure, refer to Column set.
+## Notes
 
-Precautions
+- Column components support a maximum of five nested layers. Avoid nesting multiple layers within columns, as multi-layer nesting compresses the content display space and affects card presentation.
 
-Column components support a maximum of five nested layers. It is recommended to avoid nesting multiple layers within columns. Multi-layer nesting compresses the space for content display, affecting the presentation of the card.
+## Application Scenarios
 
-Application scenarios
+Column usage scenarios are extensive. Proper use of columns can make the information layout more reasonable and the hierarchy more distinct. Common scenarios include:
 
-The usage scenarios of columns are very extensive. Proper use of columns in a card can make the information layout more reasonable and the primary and secondary more distinct. Common scenarios are as follows. You are recommended to go directly to the card building tool to view the column examples.
+- **Data report push:** Using columns can quickly build neat, screen-adaptive multi-column data tables, solving cumbersome layout processes and style issues that cannot adapt to various screens.
+- **Mixed text and images:** The flexible horizontal and vertical layout capabilities of columns allow you to quickly build ideal text-and-image cards, effectively reducing manual adjustment time.
+- **Form collection:** Embedding column components in form containers and placing related fields in the same column can improve the logicality and readability of the content.
 
-Data report push: Using columns can quickly build neat, screen-adaptive multi-column data tables, solving the cumbersome layout process of traditional report building and the style issues that cannot adapt to various screens.
-Mixed text and images: The flexible horizontal and vertical column layout capabilities of columns allow you to quickly build ideal text and image cards, effectively reducing the time spent manually adjusting text and image layouts.
-Form collection: Embedding column components in form containers and placing related fields in the same column can effectively improve the logicality and readability of the content.
+Columns can also be configured with click links and variables.
 
-Columns can also be configured with click links and variables. You are recommended to go directly to the card building tool to view the column configuration link cases.
+## Nesting Rules
 
-Nesting rules
+Column components consist of the column set properties (`column_set`) and column containers (`column`). A column component can contain multiple column containers, each of which can embed multiple components.
 
-Column components consist of the column set's properties (column_set) and the column containers (column). A column component can contain multiple column containers, each of which can embed multiple components.
+The Card JSON 2.0 structure supports embedding all components except form containers (`form`) and table components (`table`).
 
-The Card JSON 2.0 Structure supports embedding all components except for form containers (form) and table components (table).
+## JSON Structure
 
-The overall nesting relationship is shown in the following diagram.
+The complete JSON 2.0 structure of the column component:
 
-The hierarchical relationship of nesting columns within a column container is shown in the following diagram.
-
-Component properties
-JSON structure
-
-The complete JSON 2.0 structure of the column component is shown below:
-
+```json
 {
     "schema": "2.0",
     "body": {
         "elements": [
             {
-                "tag": "column_set", // Column set tag.
-                "element_id": "custom_id", // Unique identifier for the operation component. Used to specify the component when calling related component interfaces. Custom defined by the developer.
-                "margin": "4px", // Outer margin of the container, default value "0", supported range [-99,99]px.
-                "horizontal_spacing": "large", // Spacing between components within the container, optional values: "small"(4px), "medium"(8px), "large"(12px), "extra_large"(16px) or [0,99]px. Default 8px.
-                "horizontal_align": "left", // Horizontal alignment of components within the container, optional values: "left", "center", "right", default value is "left".
-                "flex_mode": "none", // Adaptive mode of each column on narrow screens of mobile and PC. Default value none.
-                "background_style": "default", // Background style of the column set. Default value default.
-                "action": { // Interaction configuration when clicking the column set.
+                "tag": "column_set",
+                "element_id": "custom_id",
+                "margin": "4px",
+                "horizontal_spacing": "large",
+                "horizontal_align": "left",
+                "flex_mode": "none",
+                "background_style": "default",
+                "action": {
                     "multi_url": {
                         "url": "https://open.larksuite.com",
                         "pc_url": "https://open.feishu.com",
@@ -70,22 +52,20 @@ The complete JSON 2.0 structure of the column component is shown below:
                     }
                 },
                 "columns": [
-                    // Column configuration
                     {
                         "tag": "column",
-                        "element_id": "custom_id", // Unique identifier for the operation component. Used to specify the component when calling related component interfaces. Custom defined by the developer.
-                        "background_style": "default", // Background style of the column. Default value default.
-                        "width": "auto", // Width of the column. Default value auto.
-                        "weight": 1, // Effective when width is set to weighted, indicating the width proportion of the current column.
-                        "horizontal_spacing": "large", // Spacing between components within the column, optional values: "small"(4px), "medium"(8px), "large"(12px), "extra_large"(16px) or [0,99]px. Default 8px.
-                        "horizontal_align": "left", // Horizontal alignment of components within the column, optional values: "left", "center", "right", default value is "left".
-                        "vertical_align": "center", // Vertical alignment of components within the column, optional values: "top", "center", "bottom", default value is "top".
-                        "vertical_spacing": "4px", // Vertical spacing of subcomponents within the column. Default value default (8px).
-                        "direction": "vertical", // Arrangement direction of the column. Optional values: "vertical" (vertical arrangement), "horizontal" (horizontal arrangement). Default is "vertical".
-                        "padding": "8px", // Inner padding of the column. Default value 0px. Supported range [0,99]px.
-                        "margin": "4px", // Outer margin of the column, default value 0px. supported range [-99,99]px.
+                        "element_id": "custom_id",
+                        "background_style": "default",
+                        "width": "auto",
+                        "weight": 1,
+                        "horizontal_spacing": "large",
+                        "horizontal_align": "left",
+                        "vertical_align": "center",
+                        "vertical_spacing": "4px",
+                        "direction": "vertical",
+                        "padding": "8px",
+                        "margin": "4px",
                         "action": {
-                            // Interaction configuration when clicking the column.
                             "multi_url": {
                                 "url": "https://www.baidu.com",
                                 "pc_url": "https://www.baidu.com",
@@ -93,768 +73,63 @@ The complete JSON 2.0 structure of the column component is shown below:
                                 "android_url": "https://www.apple.com.cn"
                             }
                         },
-                        "elements": [] // Components nested within the column container, does not support nested table and form containers.
+                        "elements": []
                     }
                 ]
             }
         ]
     }
 }
-Column set fields description
-
-The description of the various attribute fields for the columns within a column set is shown in the following table.
-
-Name	Required	Type	Default	Description
-
-
-tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The tag of the component. The fixed value for column_set component is column_set.
-
-
-
-
-element_id
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-The unique identifier for the component. A new attribute added in JSON 2.0. It is used to specify the component when calling component-related interfaces. The value of this field must be globally unique within the same card. Only letters, numbers, and underscores are allowed, and it must start with a letter and not exceed 20 characters.
-
-
-
-
-horizontal_spacing
-
-	
-
-No
-
-	
-
-String
-
-	
-
-8px
-
-	
-
-Horizontal spacing of components within the container. Optional values:
-
-small: small spacing, 4px
-medium: medium spacing, 8px
-large: large spacing, 12px
-extra_large: extra-large spacing, 16px
-Specific values, such as 20px. The value range is [0,99]px
-
-
-
-horizontal_align
-
-	
-
-No
-
-	
-
-String
-
-	
-
-left
-
-	
-
-Horizontal alignment of components within the container. Optional values:
-
-left: left-aligned
-center: center-aligned
-right: right-aligned
-
-
-
-margin
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0px
-
-	
-
-External margin of the container. The value range is [-99,99]px. Optional values:
-
-Single value, such as "10px", indicates that the four external margins of the container are all 10 px.
-Double value, such as "4px 0", indicates that the top and bottom external margins of the container are 4 px, and the left and right external margins are 0 px. Use spaces to separate (units can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", indicate that the top, right, bottom, and left external margins of the container are 4px, 12px, 4px, and 12px, respectively. Use spaces to separate.
-
-
-
-flex_mode
-
-	
-
-No
-
-	
-
-String
-
-	
-
-none
-
-	
-
-Adaptive methods for narrow screens on mobile and PC. Values:
-
-none: No layout adaptation, compress column width proportionally on narrow screens.
-stretch: Column layout changes to row layout, and each column (row) width is forcibly stretched to 100%, all columns adapt to stack vertically.
-flow: Column flow layout (automatic line wrap), when a row cannot display a column, it automatically wraps to the next row.
-bisect: Two-column equal layout.
-trisect: Three-column equal layout.
-
-
-
-background_style
-
-	
-
-No
-
-	
-
-String
-
-	
-
-default
-
-	
-
-Background color style of the column. Possible values:
-
-default: Default white background style, black background in client dark theme.
-Color enumeration values supported by the card and custom colors in RGBA syntax. Refer to Color Enumeration Values.
-
-Note: When there is nested column layout, the color of the upper column overrides the color of the lower column.
-
-
-
-
-action
-
-	
-
-No
-
-	
-
-Action
-
-	
-
-/
-
-	
-
-Set the interaction configuration when clicking the column. Currently, only jump interaction is supported. If there are interactive components within the layout container, the interaction defined by the interactive components takes precedence.
-
-
-
-
-└ multi_url
-
-	
-
-No
-
-	
-
-Struct
-
-	
-
-Empty
-
-	
-
-Configure the link addresses for each end.
-
-
-
-
-└└ url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Fallback jump link.
-
-
-
-
-└└ android_url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Jump link for Android. Can be configured as lark://msgcard/unsupported_action to declare that jump is not allowed on this end.
-
-
-
-
-└└ ios_url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Jump link for iOS. Can be configured as lark://msgcard/unsupported_action to declare that jump is not allowed on this end.
-
-
-
-
-└└ pc_url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Jump link for PC. Can be configured as lark://msgcard/unsupported_action to declare that jump is not allowed on this end.
-
-
-
-
-columns
-
-	
-
-Yes
-
-	
-
-column[]
-
-	
-
-Empty
-
-	
-
-Configuration of columns in the column layout. See below for details.
-
-Column field description
-
-The attributes of each column in the split column are described in the table below.
-
-Name	Required	Type	Default value	Description
-
-
-tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The tag of the column, with a fixed value of column.
-
-
-
-
-element_id
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-The unique identifier of the operation component. A new attribute added in JSON 2.0. It is used to specify the component when calling component-related interfaces. The value of this field must be globally unique within the same card. Only letters, numbers, and underscores are allowed, must start with a letter, and must not exceed 20 characters.
-
-
-
-
-background_style
-
-	
-
-No
-
-	
-
-String
-
-	
-
-default
-
-	
-
-The background color style of the column. Possible values:
-
-default: Default white background style, black background style in client dark theme
-Color enumeration values supported by the card and custom colors in RGBA syntax. Refer to color enumeration values
-
-
-
-width
-
-	
-
-No
-
-	
-
-String
-
-	
-
-auto
-
-	
-
-Column width. This attribute is effective only when flex_mode is none. Possible values:
-
-auto: Column width is consistent with the width of the elements within the column
-weighted: Column width is distributed according to the weight defined by the weight parameter
-Specific values, such as 100px. The value range is [16,600]px. This enumeration is supported in version V7.4 and above
-
-
-
-weight
-
-	
-
-No
-
-	
-
-Number
-
-	
-
-1
-
-	
-
-Effective when the width field is set to weighted, indicating the width proportion of the current column. The value range is an integer between 1 and 5.
-
-
-
-
-horizontal_spacing
-
-	
-
-No
-
-	
-
-String
-
-	
-
-8px
-
-	
-
-Horizontal spacing of components within the column. Optional values:
-
-small: Small spacing, 4px
-medium: Medium spacing, 8px
-large: Large spacing, 12px
-extra_large: Extra large spacing, 16px
-Specific values, such as 20px. The value range is [0,99]px
-
-
-
-horizontal_align
-
-	
-
-No
-
-	
-
-String
-
-	
-
-left
-
-	
-
-Horizontal alignment of components within the column. Possible values:
-
-left: Left alignment
-center: Center alignment
-right: Right alignment
-
-
-
-vertical_align
-
-	
-
-No
-
-	
-
-String
-
-	
-
-top
-
-	
-
-Vertical alignment of components within the column. Possible values:
-
-top: Top alignment
-center: Center alignment
-bottom: Bottom alignment
-
-
-
-vertical_spacing
-
-	
-
-No
-
-	
-
-String
-
-	
-
-8px
-
-	
-
-Vertical spacing of components within the column. Optional values:
-
-small: Small spacing, 4px
-medium: Medium spacing, 8px
-large: Large spacing, 12px
-extra_large: Extra large spacing, 16px
-Specific values, such as 20px. The value range is [0,99]px
-
-
-
-direction
-
-	
-
-No
-
-	
-
-String
-
-	
-
-vertical
-
-	
-
-Direction of the column arrangement. Optional values:
-
-vertical: Vertical arrangement
-horizontal: Horizontal arrangement
-
-
-
-padding
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0px
-
-	
-
-Padding of the column. The value range is [0,99]px. Optional values:
-
-Single value, such as "10px", indicating that all four margins of the column are 10px.
-Double value, such as "4px 0", indicating that the top and bottom margins of the column are 4px, and the left and right margins are 0px. Use spaces to separate (units can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", indicating that the top, right, bottom, and left margins of the column are 4px, 12px, 4px, and 12px, respectively. Use spaces to separate.
-
-
-
-margin
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0px
-
-	
-
-External margin of the column. The value range is [-99,99]px. Optional values:
-
-Single value, such as "10px", indicates that the four external margins of the container are all 10 px.
-Double value, such as "4px 0", indicates that the top and bottom external margins of the container are 4 px, and the left and right external margins are 0 px. Use spaces to separate (units can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", indicate that the top, right, bottom, and left external margins of the container are 4px, 12px, 4px, and 12px, respectively. Use spaces to separate.
-
-
-
-elements
-
-	
-
-No
-
-	
-
-Element or ColumnSet[]
-
-	
-
-Empty
-
-	
-
-Components embedded within the column. Refer to the nesting relationship mentioned above for embeddable components.
-
-
-
-
-action
-
-	
-
-No
-
-	
-
-Action
-
-	
-
-/
-
-	
-
-Interaction configuration when clicking the column. Currently, only jump interactions are supported. If there are interactive components within the layout container, the interaction defined by the interactive components takes precedence.
-
-
-
-
-└ multi_url
-
-	
-
-No
-
-	
-
-Struct
-
-	
-
-Empty
-
-	
-
-Configure the link address for each end.
-
-
-
-
-└└ url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Fallback link address.
-
-
-
-
-└└ android_url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Link address for the Android end. It can be configured as lark://msgcard/unsupported_action to declare that this end does not allow redirection.
-
-
-
-
-└└ ios_url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Link address for the iOS end. It can be configured as lark://msgcard/unsupported_action to declare that this end does not allow redirection.
-
-
-
-
-└└ pc_url
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Link address for the PC end. It can be configured as lark://msgcard/unsupported_action to declare that this end does not allow redirection.
-
-Demo example
-
-The following sample code in JSON 2.0 structure can achieve the card effect as shown in the figure below:
-
+```
+
+## Column Set Fields
+
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `tag` | Yes | String | — | The tag of the component. Fixed value: `column_set`. |
+| `element_id` | No | String | — | Unique identifier for the component (JSON 2.0). Used to specify the component when calling component-related interfaces. Must be globally unique within the same card. Only letters, numbers, and underscores allowed; must start with a letter; max 20 characters. |
+| `horizontal_spacing` | No | String | `8px` | Horizontal spacing of components within the container. Values: `small` (4px), `medium` (8px), `large` (12px), `extra_large` (16px), or a specific value in the range [0,99]px. |
+| `horizontal_align` | No | String | `left` | Horizontal alignment of components within the container. Values: `left`, `center`, `right`. |
+| `margin` | No | String | `0px` | Outer margin of the container. Range: [-99,99]px. Accepts single value (`"10px"`), double value (`"4px 0"`), or four values (`"4px 0 4px 0"`) for top/right/bottom/left. |
+| `flex_mode` | No | String | `none` | Adaptive mode for narrow screens on mobile and PC. Values: `none` (compress column width proportionally), `stretch` (columns stack vertically at 100% width), `flow` (automatic line wrap), `bisect` (two-column equal layout), `trisect` (three-column equal layout). |
+| `background_style` | No | String | `default` | Background color style of the column set. Values: `default` (white background, black in dark theme), or any color enumeration value / custom RGBA color. When columns are nested, the upper column color overrides the lower. |
+| `action` | No | Action | — | Click interaction configuration. Currently only jump interaction is supported. If interactive components exist within the container, those interactions take precedence. |
+| `action.multi_url` | No | Struct | — | Link addresses for each platform. |
+| `action.multi_url.url` | No | String | — | Fallback jump link. |
+| `action.multi_url.android_url` | No | String | — | Android jump link. Set to `lark://msgcard/unsupported_action` to disallow redirect on this platform. |
+| `action.multi_url.ios_url` | No | String | — | iOS jump link. Set to `lark://msgcard/unsupported_action` to disallow redirect on this platform. |
+| `action.multi_url.pc_url` | No | String | — | PC jump link. Set to `lark://msgcard/unsupported_action` to disallow redirect on this platform. |
+| `columns` | Yes | column[] | — | Configuration of columns in the column layout. See Column Fields below. |
+
+## Column Fields
+
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `tag` | Yes | String | — | The tag of the column. Fixed value: `column`. |
+| `element_id` | No | String | — | Unique identifier of the component (JSON 2.0). Must be globally unique within the same card. Only letters, numbers, and underscores allowed; must start with a letter; max 20 characters. |
+| `background_style` | No | String | `default` | Background color style. Values: `default` (white background, black in dark theme), or any color enumeration value / custom RGBA color. |
+| `width` | No | String | `auto` | Column width. Only effective when `flex_mode` is `none`. Values: `auto` (matches element width), `weighted` (distributed by `weight`), or a specific value in [16,600]px (supported in V7.4+). |
+| `weight` | No | Number | `1` | Width proportion when `width` is `weighted`. Range: integer between 1 and 5. |
+| `horizontal_spacing` | No | String | `8px` | Horizontal spacing of components within the column. Values: `small` (4px), `medium` (8px), `large` (12px), `extra_large` (16px), or a specific value in [0,99]px. |
+| `horizontal_align` | No | String | `left` | Horizontal alignment. Values: `left`, `center`, `right`. |
+| `vertical_align` | No | String | `top` | Vertical alignment. Values: `top`, `center`, `bottom`. |
+| `vertical_spacing` | No | String | `8px` | Vertical spacing of components within the column. Values: `small` (4px), `medium` (8px), `large` (12px), `extra_large` (16px), or a specific value in [0,99]px. |
+| `direction` | No | String | `vertical` | Arrangement direction. Values: `vertical`, `horizontal`. |
+| `padding` | No | String | `0px` | Inner padding. Range: [0,99]px. Accepts single value (`"10px"`), double value (`"4px 0"`), or four values (`"4px 0 4px 0"`) for top/right/bottom/left. |
+| `margin` | No | String | `0px` | Outer margin. Range: [-99,99]px. Accepts single value (`"10px"`), double value (`"4px 0"`), or four values (`"4px 0 4px 0"`) for top/right/bottom/left. |
+| `elements` | No | Element[] or ColumnSet[] | — | Components embedded within the column. Supports all components except table and form containers. |
+| `action` | No | Action | — | Click interaction configuration. Currently only jump interactions are supported. If interactive components exist within the container, those interactions take precedence. |
+| `action.multi_url` | No | Struct | — | Link addresses for each platform. |
+| `action.multi_url.url` | No | String | — | Fallback link address. |
+| `action.multi_url.android_url` | No | String | — | Android link. Set to `lark://msgcard/unsupported_action` to disallow redirect. |
+| `action.multi_url.ios_url` | No | String | — | iOS link. Set to `lark://msgcard/unsupported_action` to disallow redirect. |
+| `action.multi_url.pc_url` | No | String | — | PC link. Set to `lark://msgcard/unsupported_action` to disallow redirect. |
+
+## Example
+
+The following JSON 2.0 example produces a personal efficiency overview card:
+
+```json
 {
     "schema": "2.0",
     "body": {
@@ -1318,7 +593,4 @@ The following sample code in JSON 2.0 structure can achieve the card effect as s
         }
     }
 }
-Previous:component JSON v2.0 overview
-Next:Form container
-Need help with a problem?
-Submit feedback
+```

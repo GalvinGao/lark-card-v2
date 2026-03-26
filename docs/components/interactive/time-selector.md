@@ -1,545 +1,121 @@
-# Time-selector
+# Time Selector
 
 > Source: <https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/interactive-components/time-selector>
+> Last updated on 2025-06-27
 
-Developer GuidesMessage cardsBuild card with JSONCard JSON 2.0 version componentsInteractive componentsTime-selector
-Time-selector
-Copy Page
-Last updated on 2025-06-27
-The contents of this article
-Notes
-Nesting rules
-Component properties
-JSON Structure
-Field descriptions
-Callback structure
-Example code
+The time selector component is an interactive component used to provide time selection options. This document covers the JSON 2.0 structure. For the legacy JSON 1.0 structure, refer to the time picker documentation.
 
-The time picker component is an interactive component used to provide time options. This document introduces the JSON structure and related properties of the time picker component.
+## Notes
 
-This document introduces the JSON 2.0 structure of the time picker component. To view the historical JSON 1.0 structure, refer to time picker.
+When using the time selector, remind users to select the timezone corresponding to the current scenario. For example, when booking overseas hotels, use the hotel location's timezone; for scheduling, use the user's current timezone. The open platform returns the user's current timezone as a reference, but this does not mean the user has selected that timezone.
 
-Notes
+## Nesting Rules
 
-When using the time picker, you need to remind users to select timezone information corresponding to the current time scenario. For example, in the scenario of booking overseas hotels, the timezone of the hotel location is generally used; in the scheduling scenario, the timezone of the user's current location is generally used. The open platform will return the user's current timezone as a reference, but it does not mean that the user has selected that timezone.
+The time selector supports nesting within column sets, form containers, folding panels, loop containers, and interactive containers. In the builder tool, the time selector does not yet support nesting within interactive containers.
 
-Nesting rules
+## JSON Structure
 
-The time picker component supports nesting within column sets, form containers, folding panels, loop containers, and interactive containers. In the card building tool, the time picker component does not yet support nesting within interactive containers.
-
-Component properties
-JSON Structure
-
-The JSON 2.0 structure of the time picker component is as follows:
-
+```json
 {
-    "schema": "2.0",
-    "body": {
-        "elements": [
-            {
-                "tag": "picker_time", // Tag of the time picker component.
-                "element_id": "custom_id", // Unique identifier for the operation component. Used to specify the component in related interface calls. Needs to be customized by the developer.
-                "margin": "0px 0px 0px 0px", // Component margin, default value is "0", supported range is [-99,99]px.
-                "name": "picker_time1", // Unique identifier for the time picker component. This field is required when the component is nested within a form container.
-                "required": false, // Whether the time is required. Default value is false.
-                "disabled": false, // Whether the time picker component is disabled. Default value is false.
-                "width": "default", // Width of the time picker.
-                "behaviors": [
-                    { // Configure callback interaction for the component.
-                        "type": "callback",
-                        "value": {
-                            // Callback interaction data. Supports string or object data types. The open platform SDK only supports object type callback interaction data.
-                            "key": "value"
-                        }
-                    }
-                ],
-                "initial_time": "11:30", // Initial time value.
-                "placeholder": {
-                    // Placeholder text inside the time picker component.
-                    "tag": "plain_text",
-                    "content": "Please select"
-                },
-                "value": {
-                    // Callback data.
-                    "key_1": "value_1"
-                },
-                "confirm": {
-                    // Secondary confirmation popup configuration.
-                    "title": {
-                        "tag": "plain_text",
-                        "content": "title"
-                    },
-                    "text": {
-                        "tag": "plain_text",
-                        "content": "content"
-                    }
-                }
+  "schema": "2.0",
+  "body": {
+    "elements": [
+      {
+        "tag": "picker_time",
+        "element_id": "custom_id",
+        "margin": "0px 0px 0px 0px",
+        "name": "picker_time1",
+        "required": false,
+        "disabled": false,
+        "width": "default",
+        "behaviors": [
+          {
+            "type": "callback",
+            "value": {
+              "key": "value"
             }
-        ]
-    }
+          }
+        ],
+        "initial_time": "11:30",
+        "placeholder": {
+          "tag": "plain_text",
+          "content": "Please select"
+        },
+        "value": {
+          "key_1": "value_1"
+        },
+        "confirm": {
+          "title": {
+            "tag": "plain_text",
+            "content": "title"
+          },
+          "text": {
+            "tag": "plain_text",
+            "content": "content"
+          }
+        }
+      }
+    ]
+  }
 }
-Field descriptions
-
-The field descriptions of the time picker component are as follows.
-
-Field	Required	Type	Default Value	Description
-
-
-tag
-
-	
-
-Yes
-
-	
-
-string
-
-	
-
-/
-
-	
-
-The tag of the component. For the time picker component, it takes a fixed value of picker_time.
-
-
-
-
-element_id
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Unique identifier for the operation component. New attribute in JSON 2.0. Used to specify the component when calling related component interfaces. This value must be globally unique within the same card. Only letters, numbers, and underscores are allowed, must start with a letter, and must not exceed 20 characters.
-
-
-
-
-margin
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0
-
-	
-
-Margin of the component. New attribute in JSON 2.0. The value range is [-99,99]px. Optional values:
-
-Single value, such as "10px", representing a margin of 10 px on all four sides of the component.
-Double value, such as "4px 0", representing a margin of 4 px on the top and bottom, and 0 px on the left and right. Separated by space (unit can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", representing a margin of 4px, 12px, 4px, and 12px on the top, right, bottom, and left respectively. Separated by space.
-
-
-
-name
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-The unique identifier of this time picker component. Used to identify which component the user-submitted data belongs to.
-
-Note: This field is required when the time picker component is nested within a form container, and it must be unique within the card globally.
-
-
-
-
-required
-
-	
-
-No
-
-	
-
-Boolean
-
-	
-
-false
-
-	
-
-Whether the time is required. This property can be used when the component is nested within a form container. Otherwise, it will result in an error or not take effect. It can take the values:
-
-true: Time is required. When the user clicks "Submit" in the form container without filling in the time, the front end prompts "Required items are not filled in", and no callback request is sent to the developer's server.
-false: Time is optional. When the user clicks "Submit" in the form container without filling in the time, the data in the form container is still submitted.
-
-
-
-disabled
-
-	
-
-No
-
-	
-
-Boolean
-
-	
-
-false
-
-	
-
-Whether to disable this time picker. This property is only supported by Lark clients version 7.4 and above. It can take the values:
-
-true: Disable the time picker component
-false: The time picker component remains enabled
-
-
-
-initial_time
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Initial option value of the time picker component. Format is HH:mm. This configuration will override the placeholder text configuration.
-
-
-
-
-placeholder
-
-	
-
-No
-
-	
-
-object
-
-	
-
-/
-
-	
-
-Placeholder text within the time picker component.
-
-Note:
-
-When the initial_time field is not configured to set the initial option value, this field is required.
-When the initial_time field is configured to set the initial option value, this field will not take effect.
-
-
-
-└ tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-plain_text
-
-	
-
-Placeholder tag. Fixed value is plain_text.
-
-
-
-
-└ content
-
-	
-
-No
-
-	
-
-String
-
-	
-
-/
-
-	
-
-Content of the placeholder text, supporting up to 100 characters.
-
-
-
-
-width
-
-	
-
-No
-
-	
-
-String
-
-	
-
-default
-
-	
-
-Width of the time picker component. Supports the following enumerated values:
-
-default: Default width
-fill: Maximum supported width of the card
-[100,∞)px: Custom width. When exceeding the width of the card, it will be displayed according to the maximum supported width
-
-
-
-value
-
-	
-
-Yes
-
-	
-
-JSON
-
-	
-
-/
-
-	
-
-Sets the return data for interaction. When the user clicks an option of the interactive component, the value will be returned to the server that receives the callback data. Subsequently, you can perform business logic based on the received value from the server.
-
-This field value only supports JSON structure in key-value form, and the key is of type String. Example:
-
-"value":{
-    "key-1":Object-1,
-    "key-2":Object-2,
-    "key-3":Object-3,
-    ······
-}
-
-
-
-confirm
-
-	
-
-No
-
-	
-
-Struct
-
-	
-
-Not applicable by default.
-
-	
-
-Configuration for a confirmation dialog. It prompts the user with a confirmation dialog upon submission, and only submits the entered content after the user clicks confirm. This field defaults to providing confirmation and cancel buttons, and you only need to configure the title and content of the dialog.Note: The confirm field is triggered only when the user clicks a button that includes the submit attribute.
-
-
-
-
-confirm.title
-
-	
-
-Yes
-
-	
-
-Struct
-
-	
-
-/
-
-	
-
-The title of the confirmation dialog.
-
-
-
-
-confirm.title.tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-plain_text
-
-	
-
-The tag for the confirmation dialog title text. Fixed value is plain_text.
-
-
-
-
-confirm.title.content
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The content of the confirmation dialog title.
-
-
-
-
-confirm.text
-
-	
-
-Yes
-
-	
-
-Struct
-
-	
-
-/
-
-	
-
-The text content of the confirmation dialog.
-
-
-
-
-confirm.text.tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-plain_text
-
-	
-
-The tag for the confirmation dialog text. Fixed value is plain_text.
-
-
-
-
-confirm.text.content
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The specific content of the confirmation dialog text.
-
-Callback structure
-
-After successfully configuring interaction for the component, when users interact with the component, the request address configured in your developer backend will receive callback data.
-
-If you added the new version card callback interaction (card.action.trigger), you can refer to Card Callback Interaction to understand the callback structure.
-If you added the old version card callback interaction (card.action.trigger_v1), you can refer to Message Card Callback Interaction (Old) to understand the callback structure.
-Example code
-
-The following JSON 2.0 example code can achieve the card effect as shown in the image below:
-
+```
+
+## Fields
+
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `tag` | Yes | String | — | Tag of the component. Fixed value: `picker_time`. |
+| `element_id` | No | String | — | Unique identifier for the component (JSON 2.0). Used to specify the component in related interface calls. Must be globally unique within the card; only letters, numbers, and underscores allowed, must start with a letter, max 20 characters. |
+| `margin` | No | String | `0` | Margin of the component (JSON 2.0). Value range: `[-99,99]px`. Accepts a single value (`"10px"`), double value (`"4px 0"`), or four values (`"4px 0 4px 0"`). |
+| `name` | No | String | — | Unique identifier of the time selector. Used to identify which component the submitted data belongs to. **Required** when nested within a form container and must be globally unique within the card. |
+| `required` | No | Boolean | `false` | Whether the time is required. Only effective inside a form container. `true`: frontend prompts "Required items are not filled in" and blocks submission. `false`: data is submitted even if empty. |
+| `disabled` | No | Boolean | `false` | Whether to disable the time selector. Requires Lark v7.4+. `true`: disabled. `false`: enabled. |
+| `initial_time` | No | String | — | Initial time value. Format: `HH:mm`. Overrides the placeholder text when set. |
+| `placeholder` | No | Object | — | Placeholder text inside the time selector. When `initial_time` is not set, this field is required. When `initial_time` is set, this field has no effect. |
+| `placeholder.tag` | Yes | String | `plain_text` | Placeholder tag. Fixed value: `plain_text`. |
+| `placeholder.content` | No | String | — | Content of the placeholder text, up to 100 characters. |
+| `width` | No | String | `default` | Width of the time selector. Values: `default` (default width), `fill` (maximum card width), or a custom width `[100,∞)px`. |
+| `value` | Yes | JSON | — | Return data for interaction. When the user selects a time, this value is sent to the callback server. Only supports key-value JSON structure with String keys. |
+| `confirm` | No | Struct | — | Secondary confirmation dialog configuration. Triggered only when the user clicks a button with the `submit` attribute. Provides confirm/cancel buttons by default; you only configure the title and content. |
+| `confirm.title` | Yes | Struct | — | Title of the confirmation dialog. |
+| `confirm.title.tag` | Yes | String | `plain_text` | Tag for the title text. Fixed value: `plain_text`. |
+| `confirm.title.content` | Yes | String | — | Content of the confirmation dialog title. |
+| `confirm.text` | Yes | Struct | — | Body text of the confirmation dialog. |
+| `confirm.text.tag` | Yes | String | `plain_text` | Tag for the body text. Fixed value: `plain_text`. |
+| `confirm.text.content` | Yes | String | — | Content of the confirmation dialog body. |
+
+## Callback Structure
+
+After configuring interaction for the component, user interactions trigger callback data sent to the configured request address.
+
+- New version callback (`card.action.trigger`): refer to Card Callback Interaction.
+- Old version callback (`card.action.trigger_v1`): refer to Message Card Callback Interaction (Old).
+
+## Example
+
+```json
 {
-    "schema": "2.0",
-    "body": {
-        "elements": [
-            {
-                "tag": "picker_time",
-                "placeholder": {
-                    "tag": "plain_text",
-                    "content": "请选择"
-                },
-                "width": "default",
-                "initial_time": "09:00"
-            },
-            {
-                "tag": "picker_time",
-                "placeholder": {
-                    "tag": "plain_text",
-                    "content": "请选择"
-                },
-                "width": "default"
-            }
-        ]
-    }
+  "schema": "2.0",
+  "body": {
+    "elements": [
+      {
+        "tag": "picker_time",
+        "placeholder": {
+          "tag": "plain_text",
+          "content": "请选择"
+        },
+        "width": "default",
+        "initial_time": "09:00"
+      },
+      {
+        "tag": "picker_time",
+        "placeholder": {
+          "tag": "plain_text",
+          "content": "请选择"
+        },
+        "width": "default"
+      }
+    ]
+  }
 }
-Previous:Date picker
-Next:Date time picker
-Need help with a problem?
-Submit feedback
+```

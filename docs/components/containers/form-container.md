@@ -1,127 +1,110 @@
-# Form container
+# Form Container
 
 > Source: <https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/containers/form-container>
-
-Developer GuidesMessage cardsBuild card with JSONCard JSON 2.0 version componentscontainersForm container
-Form container
-Copy Page
-Last updated on 2025-06-27
-The contents of this article
-Precautions
-Nesting rules
-Component properties
-JSON structure
-Field description
-Callback structure
-Demo example
 
 When using cards to collect content, there may be scenarios where users need to submit multiple form items. The form container allows users to locally enter a batch of form items at the frontend, and by clicking the Submit button once, all locally cached form content is asynchronously called back to the developer's server, achieving the effect of asynchronously submitting multiple form item data.
 
 This document introduces the JSON 2.0 structure of the form container. To view the historical JSON 1.0 structure, refer to Form Container.
 
-Precautions
+## Notes
 
 Container type components support up to five levels of nesting. It is recommended to avoid multiple layers of nesting within the form container. Excessive nesting compresses the display space and affects the presentation of the card. If you wish to handle more complex form content, it is recommended to implement form capabilities via card links to H5 or mini-programs.
 
-Nesting rules
+## Nesting Rules
 
 In the Card JSON 2.0 Structure:
 
-Form containers do not support embedding table (table) and form container components.
-Form container components cannot be embedded within other components and can only be placed under the root node of the card.
-Component properties
+- Form containers do not support embedding table (table) and form container components.
+- Form container components cannot be embedded within other components and can only be placed under the root node of the card.
 
-This section introduces the properties of the form container.
-
-JSON structure
+## JSON Structure
 
 The following is the JSON 2.0 structure of the form container card. In this structure, a form container embeds an input field component and a submit button bound to a submit event:
 
+```json
 {
   "schema": "2.0",
   "body": {
     "elements": [
       {
-        "tag": "form", // Form container tag.
-        "element_id": "custom_id", // Unique identifier for the operation component. Used to specify the component when calling component-related interfaces. Must be customized by the developer.
-        "direction": "horizontal", // Arrangement direction of components within the container. Optional values: "vertical" (vertical arrangement), "horizontal" (horizontal arrangement). Default is "vertical".
-        "horizontal_spacing": "8px", // Spacing between components within the container. Optional values: "small" (4px), "medium" (8px), "large" (12px), "extra_large" (16px) or [0,99]px.
-        "vertical_spacing": "8px", // Vertical spacing of components within the container. Optional values: "small" (4px), "medium" (8px), "large" (12px), "extra_large" (16px) or [0,99]px.
-        "horizontal_align": "left", // Horizontal alignment of components within the container. Default value is left.
-        "vertical_align": "top", // Vertical alignment of components within the container. Optional values: "top", "center", "bottom". Default value is "top".
-        "padding": "4px 0px 4px 0px", // Padding of the container. Default value is 0px. Supported range is [0,99]px.
-        "margin": "0px 0px 0px 0px", // Margin of the container. Default value is "0". Supported range is [-99,99]px.
-        "name": "form_1", // Unique identifier of the form container. Used to identify which form container's data is being submitted after user interaction.
+        "tag": "form",
+        "element_id": "custom_id",
+        "direction": "horizontal",
+        "horizontal_spacing": "8px",
+        "vertical_spacing": "8px",
+        "horizontal_align": "left",
+        "vertical_align": "top",
+        "padding": "4px 0px 4px 0px",
+        "margin": "0px 0px 0px 0px",
+        "name": "form_1",
         "elements": [
           {
-            "tag": "input", // Add an input box component within the form container.
-            "name": "reason", // Unique identifier of the input box component. Used to identify which form item data is being submitted after user interaction. This field is required for all interactive components within the form container, otherwise the data will fail to send.
-            "required": true // Whether it is required. If true, a required validation will be performed after clicking the button.
+            "tag": "input",
+            "name": "reason",
+            "required": true
           },
           {
-            "tag": "column_set", // Nested column component within the form container. Used to place "Submit" and "Cancel" buttons.
+            "tag": "column_set",
             "columns": [
-              { // Column within the column container.
-                "tag": "column", // First column within the column component.
-                "width": "auto", // Column width setting. Auto is adaptive.
-                "elements": [ // Components nested within the column container.
+              {
+                "tag": "column",
+                "width": "auto",
+                "elements": [
                   {
-                    "tag": "button", // Add a button component for submitting data. There must be at least one button with the submit attribute in the form container.
-                    "type": "primary", // Button style type.
-                    "text": { // Text on the button.
+                    "tag": "button",
+                    "type": "primary",
+                    "text": {
                       "tag": "plain_text",
                       "content": "Submit"
                     },
-                    "behaviors": [ // Add open link interaction event or request callback interaction for the button.
+                    "behaviors": [
                       {
-                        "type": "open_url", // Declare that the interaction type of the button is an open link jump interaction.
-                        "default_url": "https://www.baidu.com", // Fallback jump address.
-                        "android_url": "https://developer.android.com/", // Android jump address.
-                        "ios_url": "lark://msgcard/unsupported_action", // iOS jump address.
-                        "pc_url": "https://www.windows.com" // Desktop jump address.
+                        "type": "open_url",
+                        "default_url": "https://www.baidu.com",
+                        "android_url": "https://developer.android.com/",
+                        "ios_url": "lark://msgcard/unsupported_action",
+                        "pc_url": "https://www.windows.com"
                       },
                       {
-                        "type": "callback", // Declare that the interaction type is a request callback interaction that returns data to the server.
+                        "type": "callback",
                         "value": {
-                          // Return interaction data
                           "key": "value"
                         }
                       }
                     ],
-                    "form_action_type": "submit", // Bind the current button to the submit event. When the user clicks, it will trigger the submit event of the form container and asynchronously submit all filled form item content. There must be at least one button with the submit attribute in the form container.
-                    "name": "Button_m8pn9lbf" // Unique identifier of the button component. Used to identify which button was clicked after user interaction. This field is required for all interactive components within the form container, otherwise the data will fail to send.
+                    "form_action_type": "submit",
+                    "name": "Button_m8pn9lbf"
                   }
                 ]
               },
               {
-                "tag": "column", // Second column within the column component.
-                "width": "auto", // Column width setting. Auto is adaptive.
-                "elements": [ // Components nested within the column container.
+                "tag": "column",
+                "width": "auto",
+                "elements": [
                   {
-                    "tag": "button", // Add a button component to clear the filled content.
-                    "type": "default", // The style type of the button. default is the secondary button style.
-                    "text": { // Text on the button.
+                    "tag": "button",
+                    "type": "default",
+                    "text": {
                       "tag": "plain_text",
                       "content": "Cancel"
                     },
                     "behaviors": [
                       {
-                        "type": "open_url", // Declare the interaction type as a link opening interaction.
-                        "default_url": "https://www.baidu.com", // Fallback URL.
-                        "android_url": "https://developer.android.com/", // Android URL.
-                        "ios_url": "lark://msgcard/unsupported_action", // iOS URL.
-                        "pc_url": "https://www.windows.com" // Desktop URL.
+                        "type": "open_url",
+                        "default_url": "https://www.baidu.com",
+                        "android_url": "https://developer.android.com/",
+                        "ios_url": "lark://msgcard/unsupported_action",
+                        "pc_url": "https://www.windows.com"
                       },
                       {
-                        "type": "callback", // Declare the interaction type as a data callback to the server.
+                        "type": "callback",
                         "value": {
-                          // Callback interaction data
                           "key": "value"
                         }
                       }
                     ],
-                    "form_action_type": "reset", // Set the current button to reset. When clicked, all filled form items will be reset.
-                    "name": "Button_m8pn9lbg" // The unique identifier of the button component, used to identify which button the user clicked after interaction. This field is mandatory in all interactive components within the form container, otherwise data will fail to send.
+                    "form_action_type": "reset",
+                    "name": "Button_m8pn9lbg"
                   }
                 ]
               }
@@ -132,436 +115,81 @@ The following is the JSON 2.0 structure of the form container card. In this stru
     ]
   }
 }
-Field description
-
-The field descriptions for the form container are shown in the table below:
-
-Name	Required	Type	Default value	Description
-
-
-tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-Tag of the form container. Fixed value is form.
-
-
-
-
-element_id
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Unique identifier of the operation component. Newly added attribute in JSON 2.0. Used to specify the component when calling related component interfaces. The value of this field must be globally unique within the same card. Only letters, numbers, and underscores are allowed, must start with a letter, and must not exceed 20 characters.
-
-
-
-
-direction
-
-	
-
-No
-
-	
-
-String
-
-	
-
-vertical
-
-	
-
-Arrangement direction of components within the container. Optional values:
-
-vertical: vertical arrangement
-horizontal: horizontal arrangement
-
-
-
-margin
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0px
-
-	
-
-Outer margin of the container. The value range is [-99,99]px. Optional values:
-
-Single value, such as "10px", indicates that all four outer margins of the container are 10 px.
-Double value, such as "4px 0", indicates that the top and bottom outer margins of the container are 4 px, and the left and right outer margins are 0 px. Separated by spaces (units can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", indicates that the top, right, bottom, and left outer margins of the container are 4px, 12px, 4px, and 12px, respectively. Separated by spaces.
-
-
-
-padding
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0px
-
-	
-
-Inner padding of the container. The value range is [-99,99]px. Optional values:
-
-Single value, such as "10px", indicates that all four inner margins of the container are 10 px.
-Double value, such as "4px 0", indicates that the top and bottom inner margins of the container are 4 px, and the left and right inner margins are 0 px. Separated by spaces (units can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", indicates that the top, right, bottom, and left inner margins of the container are 4px, 12px, 4px, and 12px, respectively. Separated by spaces.
-
-
-
-horizontal_spacing
-
-	
-
-No
-
-	
-
-String
-
-	
-
-8px
-
-	
-
-Horizontal spacing between components within the container. Optional values:
-
-small: small spacing, 4px
-medium: medium spacing, 8px
-large: large spacing, 12px
-extra_large: extra-large spacing, 16px
-Specific value, such as 20px. The value range is [0,99]px
-
-
-
-horizontal_align
-
-	
-
-No
-
-	
-
-String
-
-	
-
-left
-
-	
-
-Horizontal alignment of components within the container. Optional values:
-
-left: left alignment
-center: center alignment
-right: right alignment
-
-
-
-vertical_align
-
-	
-
-No
-
-	
-
-String
-
-	
-
-top
-
-	
-
-Vertical alignment of components within the container. Optional values:
-
-top: top alignment
-center: center alignment
-bottom: bottom alignment
-
-
-
-vertical_spacing
-
-	
-
-No
-
-	
-
-String
-
-	
-
-12px
-
-	
-
-Vertical spacing between components within the container. Optional values:
-
-small: small spacing, 4px
-medium: medium spacing, 8px
-large: large spacing, 12px
-extra_large: extra-large spacing, 16px
-Specific value, such as 20px. The value range is [0,99]px
-
-
-
-name
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-None
-
-	
-
-Unique identifier of the form container. Used to identify which form container the user-submitted data belongs to. The value of this field must be globally unique within the same card.
-
-
-
-
-elements
-
-	
-
-Yes
-
-	
-
-Array<element>
-
-	
-
-[]
-
-	
-
-Child nodes of the form container. Other container components and display, interactive components can be nested, but table, chart, and form container components cannot be nested.
-
-
-
-
-└ tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-None
-
-	
-
-The labels of components embedded in the form container support all components except tables and form containers.
-
-Note: The form container must contain a button component for submitting the form.
-
-
-
-
-└ name
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-None
-
-	
-
-Unique identifier of the component within the form container. Used to identify which component the user-submitted data belongs to.
-
-Note:This field is required for all interactive components in the form container and must be globally unique within the card; otherwise, the data submission will fail.
-
-
-
-
-└ required
-
-	
-
-No
-
-	
-
-Boolean
-
-	
-
-false
-
-	
-
-Whether the content of the component is required. This attribute is effective when the component is embedded in the form container. Optional values:
-
-true: Required. When the user clicks "Submit" on the form container, if this component is not filled out, the frontend will prompt "There are required fields not filled out" and will not initiate a callback request to the developer's server.
-
-false: Optional. When the user clicks "Submit" on the form container, if this component is not filled out, the data in the form container will still be submitted.
-
-
-
-
-└ form_action_type
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-None
-
-	
-
-The interaction type of the button embedded in the form container. Enumerated values include:
-
-submit: Binds the current button to the submit event. When the user clicks it, the submit event of the form container will be triggered, asynchronously submitting all filled form items
-reset: Binds the current button to the cancel submit event. When the user clicks it, the cancel submit event of the form container will be triggered, resetting all form component input values to their initial values
-
-
-
-└ action_type (deprecated)
-
-	
-
-No
-
-	
-
-String
-
-	
-
-None
-
-	
-
-The interaction type of the button embedded in the form container. Enumerated values include:
-
-link: The current button only supports link jumps
-request: The current button only supports callback interactions
-multi: The current button supports both link jumps and callback interactions
-form_submit: Binds the current button to the submit event. When the user clicks it, the submit event of the form container will be triggered, asynchronously submitting all filled form items
-form_reset: Binds the current button to the cancel submit event. When the user clicks it, the cancel submit event of the form container will be triggered, resetting all form component input values to their initial values
-
-Note: The form container must include a button component for submitting the form. At this time, action_type is fixed to form_submit, indicating form submission.
-
-Callback structure
-
-When a user clicks the submit button of the form container, your configured backend URL will receive the following callback data. If you added the new version card interaction callback (card.action.trigger), the structure of the callback data is as follows. For detailed parameter descriptions, refer to Card Interaction Callback.
-
-  {
-      "schema": "2.0", // Version of the callback
-      "header": { // Basic information of the callback
-          "event_id": "f7984f25108f8137722bb63c*****", // Unique identifier of the callback
-          "token": "066zT6pS4QCbgj5Do145GfDbbag*****", // Application's Verification Token
-          "create_time": "1603977298000000", // Time the callback was sent, close to the time the event occurred
-          "event_type": "card.action.trigger", // Type of callback, fixed for card interaction scenarios as "card.action.trigger"
-          "tenant_key": "2df73991750*****", // Tenant key the application belongs to, i.e., unique tenant identifier
-          "app_id": "cli_a5fb0ae6a4******" // App ID of the application
-      },
-      "event": { // Detailed information of the callback
-          "operator": { // Information about the trigger of the callback
-              "tenant_key": "2df73991750*****", // Tenant key of the callback trigger, i.e., unique tenant identifier
-              "user_id": "867*****", // User ID of the callback trigger, returned when the application has "Obtain User ID" permission enabled
-              "open_id": "ou_3c14f3a59eaf2825dbe25359f15*****" // Open ID of the callback trigger
-          },
-          "token": "c-295ee57216a5dc9de90fefd0aadb4b1d7d******", // Token for updating the card, valid for 30 minutes, can be updated up to 2 times
-          "action": { // Data returned by the user interaction component
-              "value": { // Developer-defined data bound to the button component in the form
-                  "key": "value"
-              },
-              "tag": "button", // Label of the button component in the form
-              "timezone": "Asia/Shanghai", // Timezone of the user's current region. Returned when the user operates a date picker, time picker, or datetime picker
-              "form_value": { // Data submitted by the user within the form container. The following are example data:
-                  "DatePicker_bpqdq5puvn4": "2024-04-01 +0800", // Name and value of the date picker component within the form container. Name is the component ID in the construction tool, which can be customized
-                  "DateTimePicker_ihz2d7a74i": "2024-04-29 07:07 +0800", // Custom name and value of the datetime picker component within the form container
-                  "Input_lf4fmxwfrd9": "1234", // Name and value of the input box component within the form container
-                  "PersonSelect_2ejys7ype7m": "ou_3c14f3a59eaf2825dbe25359f1595b00", // Name and value of the person selection - single select component within the form container
-                  "Select_a2d5b7l3zd": "1", // Name and value of the dropdown select - single select component within the form container
-                  "TimePicker_7ecsf6xkqsq": "00:00 +0800" // Name and value of the time picker component within the form container
-              },
-              "name": "Button_lvkepfu3" // Name of the button component within the form
-          },
-          "host": "im_message", // Card display scenario
-          "context": { // Related information about the card display scenario
-              "open_message_id": "om_574d639e4a44e4dd646eaf628e2*****", // Message ID where the card is located
-              "open_chat_id": "oc_e4d2605ca917e695f54f11aaf56*****" // Chat ID where the card is located
-          }
-      }
-  }
-Demo example
-
-The following sample code in JSON 2.0 structure can achieve the card effect as shown below:
-
+```
+
+## Fields
+
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `tag` | Yes | String | — | Tag of the form container. Fixed value is `form`. |
+| `element_id` | No | String | Empty | Unique identifier of the operation component. Newly added attribute in JSON 2.0. Used to specify the component when calling related component interfaces. The value of this field must be globally unique within the same card. Only letters, numbers, and underscores are allowed, must start with a letter, and must not exceed 20 characters. |
+| `direction` | No | String | `vertical` | Arrangement direction of components within the container. Optional values: `vertical` (vertical arrangement), `horizontal` (horizontal arrangement). |
+| `margin` | No | String | `0px` | Outer margin of the container. The value range is [-99,99]px. Optional values: single value such as `"10px"` (all four margins); double value such as `"4px 0"` (top/bottom and left/right); multiple values such as `"4px 0 4px 0"` (top, right, bottom, left). Separated by spaces. |
+| `padding` | No | String | `0px` | Inner padding of the container. The value range is [-99,99]px. Optional values: single value such as `"10px"` (all four sides); double value such as `"4px 0"` (top/bottom and left/right); multiple values such as `"4px 0 4px 0"` (top, right, bottom, left). Separated by spaces. |
+| `horizontal_spacing` | No | String | `8px` | Horizontal spacing between components within the container. Optional values: `small` (4px), `medium` (8px), `large` (12px), `extra_large` (16px), or a specific value such as `"20px"`. Value range is [0,99]px. |
+| `horizontal_align` | No | String | `left` | Horizontal alignment of components within the container. Optional values: `left`, `center`, `right`. |
+| `vertical_align` | No | String | `top` | Vertical alignment of components within the container. Optional values: `top`, `center`, `bottom`. |
+| `vertical_spacing` | No | String | `12px` | Vertical spacing between components within the container. Optional values: `small` (4px), `medium` (8px), `large` (12px), `extra_large` (16px), or a specific value such as `"20px"`. Value range is [0,99]px. |
+| `name` | Yes | String | — | Unique identifier of the form container. Used to identify which form container the user-submitted data belongs to. The value of this field must be globally unique within the same card. |
+| `elements` | Yes | Array\<element\> | `[]` | Child nodes of the form container. Other container components and display/interactive components can be nested, but table, chart, and form container components cannot be nested. |
+| `elements[].tag` | Yes | String | — | The tag of the component embedded in the form container. Supports all components except tables and form containers. Note: The form container must contain a button component for submitting the form. |
+| `elements[].name` | Yes | String | — | Unique identifier of the component within the form container. Used to identify which component the user-submitted data belongs to. Note: This field is required for all interactive components in the form container and must be globally unique within the card; otherwise, the data submission will fail. |
+| `elements[].required` | No | Boolean | `false` | Whether the content of the component is required. When `true`, if the user clicks "Submit" without filling this component, the frontend will prompt "There are required fields not filled out" and will not initiate a callback request. When `false`, unfilled components will still be included in the submission. |
+| `elements[].form_action_type` | Yes | String | — | The interaction type of the button embedded in the form container. `submit`: binds the button to the submit event, triggering the form container's submit and asynchronously submitting all filled form items. `reset`: binds the button to the cancel/reset event, resetting all form component input values to their initial values. |
+| `elements[].action_type` (deprecated) | No | String | — | Legacy interaction type for the button. Values: `link` (link jumps only), `request` (callback interactions only), `multi` (both link jumps and callbacks), `form_submit` (submit event), `form_reset` (reset event). Note: The form container must include a button with `action_type` set to `form_submit` for form submission. |
+
+## Callback Structure
+
+When a user clicks the submit button of the form container, your configured backend URL will receive callback data. If you added the new version card interaction callback (`card.action.trigger`), the structure is as follows. For detailed parameter descriptions, refer to Card Interaction Callback.
+
+```json
+{
+    "schema": "2.0",
+    "header": {
+        "event_id": "f7984f25108f8137722bb63c*****",
+        "token": "066zT6pS4QCbgj5Do145GfDbbag*****",
+        "create_time": "1603977298000000",
+        "event_type": "card.action.trigger",
+        "tenant_key": "2df73991750*****",
+        "app_id": "cli_a5fb0ae6a4******"
+    },
+    "event": {
+        "operator": {
+            "tenant_key": "2df73991750*****",
+            "user_id": "867*****",
+            "open_id": "ou_3c14f3a59eaf2825dbe25359f15*****"
+        },
+        "token": "c-295ee57216a5dc9de90fefd0aadb4b1d7d******",
+        "action": {
+            "value": {
+                "key": "value"
+            },
+            "tag": "button",
+            "timezone": "Asia/Shanghai",
+            "form_value": {
+                "DatePicker_bpqdq5puvn4": "2024-04-01 +0800",
+                "DateTimePicker_ihz2d7a74i": "2024-04-29 07:07 +0800",
+                "Input_lf4fmxwfrd9": "1234",
+                "PersonSelect_2ejys7ype7m": "ou_3c14f3a59eaf2825dbe25359f1595b00",
+                "Select_a2d5b7l3zd": "1",
+                "TimePicker_7ecsf6xkqsq": "00:00 +0800"
+            },
+            "name": "Button_lvkepfu3"
+        },
+        "host": "im_message",
+        "context": {
+            "open_message_id": "om_574d639e4a44e4dd646eaf628e2*****",
+            "open_chat_id": "oc_e4d2605ca917e695f54f11aaf56*****"
+        }
+    }
+}
+```
+
+## Example
+
+The following JSON 2.0 example demonstrates a form container with person selection, priority dropdown, comment input, and submit/cancel buttons:
+
+```json
 {
     "schema": "2.0",
     "body": {
@@ -830,7 +458,4 @@ The following sample code in JSON 2.0 structure can achieve the card effect as s
         ]
     }
 }
-Previous:Column set
-Next:Interactive container
-Need help with a problem?
-Submit feedback
+```

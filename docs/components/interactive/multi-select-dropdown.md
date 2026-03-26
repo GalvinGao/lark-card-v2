@@ -1,99 +1,235 @@
-# Multi-select dropdown menu
+# Multi-Select Dropdown Menu
 
 > Source: <https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/interactive-components/multi-select-dropdown-menu>
 
-Developer GuidesMessage cardsBuild card with JSONCard JSON 2.0 version componentsInteractive componentsMulti-select dropdown menu
-Multi-select dropdown menu
-Copy Page
-Last updated on 2025-06-27
-The contents of this article
-Nesting rules
-Component properties
-JSON structure
-Field descriptions
-Callback structure
-Sample code
+The multi-select dropdown menu component supports customizing the option text, icon, and return parameters. It is an interactive component and must be embedded within a form container.
 
-The dropdown select - multi-select component supports customizing the option text, icon, and return parameters of the multi-select menu. It is an interactive component and needs to be embedded within a form container to be used.
+This document describes the JSON 2.0 structure. For the historical JSON 1.0 structure, refer to Multi-Select Dropdown Menu.
 
-This document introduces the JSON 2.0 structure of the multi-select dropdown menu component. To view the historical JSON 1.0 structure, refer to Multi-Select Dropdown Menu.
+## Notes
 
-Nesting rules
+- The multi-select component must be placed inside a form container. Content is submitted via the form container's "Submit" button.
+- When nested in a form container, the `name` field is required and must be unique within the card.
+- Within the same select component, the `value` of each option must be unique.
 
-The dropdown select - multi-select component is only supported for use embedded within a form container, and the content is submitted through the "Submit" button of the form container. To understand form containers and their interactive configurations, refer to the Form Container.
+## Nesting Rules
 
-Component properties
-JSON structure
+The multi-select dropdown component is only supported for use within a form container. Content is submitted through the form container's "Submit" button. For details, refer to the Form Container documentation.
 
-The complete JSON 2.0 structure of the multi-select dropdown menu component is as follows:
+## JSON Structure
 
+```json
+{
+  "tag": "multi_select_static",
+  "element_id": "custom_id",
+  "margin": "0px 0px 0px 0px",
+  "type": "default",
+  "name": "multi_select_departments",
+  "required": true,
+  "disabled": false,
+  "placeholder": {
+    "tag": "plain_text",
+    "content": "Default placeholder text"
+  },
+  "width": "default",
+  "selected_values": [],
+  "behaviors": [
+    {
+      "type": "callback",
+      "value": {
+        "key": "value"
+      }
+    }
+  ],
+  "options": [
+    {
+      "text": {
+        "tag": "plain_text",
+        "content": "Option text"
+      },
+      "icon": {
+        "tag": "standard_icon",
+        "token": "chat-forbidden_outlined",
+        "color": "orange",
+        "img_key": "img_v2_38811724"
+      },
+      "value": "selectDemo1"
+    }
+  ],
+  "confirm": {
+    "title": {
+      "tag": "plain_text",
+      "content": "Pop-up title"
+    },
+    "text": {
+      "tag": "plain_text",
+      "content": "Pop-up body text"
+    }
+  }
+}
+```
+
+## Fields
+
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `tag` | Yes | String | — | Component tag. Fixed value: `multi_select_static`. |
+| `element_id` | No | String | — | Unique identifier for the component (JSON 2.0). Must be globally unique within the card. Only letters, numbers, and underscores allowed; must start with a letter; max 20 characters. |
+| `margin` | No | String | `0` | Margin of the component (JSON 2.0). Value range is `[-99,99]px`. Accepts a single value (e.g. `"10px"`), double value (e.g. `"4px 0"`), or four values (e.g. `"4px 0 4px 0"`). |
+| `type` | No | String | `default` | Border style. `default`: with border. `text`: plain text style without border. |
+| `name` | Yes | String | — | Unique identifier within the form container. Required and must be card-unique when nested in a form container. |
+| `placeholder` | No | Object | — | Placeholder text shown when no option is selected. |
+| `placeholder.tag` | Yes | String | `plain_text` | Placeholder tag. Fixed value: `plain_text`. |
+| `placeholder.content` | No | String | `Please select` | Placeholder text content. Supports up to 100 characters. |
+| `width` | No | String | `default` | Component width. `default`: fixed 282px with border (`"type":"default"`), or content-adaptive without border (`"type":"text"`). `fill`: fills parent container width. `[100,∞)px`: custom fixed width (min 100px; clips to parent width if exceeded). |
+| `required` | No | Boolean | `true` | Whether the options are required. Only effective in a form container. `true`: prompts "required items not filled" on submit. `false`: submits without selection. |
+| `disabled` | No | Boolean | `false` | Whether to disable the component. `true`: displays placeholder/initial values, users cannot interact. `false`: component remains available. |
+| `selected_values` | No | Array of String | — | Default selected options. Array values must correspond to `options[].value`. |
+| `options` | No | Array | — | Option configuration. Options display in array order. |
+| `options[].text` | Yes | Object | — | Option name. Displays blank if empty. |
+| `options[].text.tag` | Yes | String | `plain_text` | Option name tag. Fixed value: `plain_text`. |
+| `options[].text.content` | Yes | String | — | Option name text. |
+| `options[].icon` | No | Object | — | Prefix icon for the option. Supports custom icons or icons from the icon library. |
+| `options[].icon.tag` | No | String | — | Icon type. `standard_icon`: icon library. `custom_icon`: custom image. |
+| `options[].icon.token` | No | String | — | Icon library token. Effective when `tag` is `standard_icon`. |
+| `options[].icon.color` | No | String | — | Icon color for linear/solid icons. Effective when `tag` is `standard_icon`. |
+| `options[].icon.img_key` | No | String | — | Custom icon image key. Effective when `tag` is `custom_icon`. Obtain via the Upload Image API. |
+| `options[].value` | Yes | String | — | Option callback value. Must be unique within the same select component. |
+| `behaviors` | No | Array | — | Interaction behavior configuration. See Configuring card interactions. |
+| `confirm` | No | Object | — | Secondary confirmation popup configuration. Only triggers when a button with a submit attribute is clicked. |
+| `confirm.title` | Yes | Object | — | Popup title. |
+| `confirm.title.tag` | Yes | String | `plain_text` | Popup title tag. Fixed value: `plain_text`. |
+| `confirm.title.content` | Yes | String | — | Popup title content. |
+| `confirm.text` | Yes | Object | — | Popup body text. |
+| `confirm.text.tag` | Yes | String | `plain_text` | Popup body tag. Fixed value: `plain_text`. |
+| `confirm.text.content` | Yes | String | — | Popup body content. |
+
+## Callback Structure
+
+When the user clicks the submit button of the form container, the request address configured in the developer backend receives callback data. For more details, see the Form Container and Card Callback Communication documentation.
+
+```json
+{
+  "schema": "2.0",
+  "header": {
+    "event_id": "f7984f25108f8137722bb63cee927e66",
+    "token": "066zT6pS4QCbgj5Do145GfDbbagCHGgF",
+    "create_time": "1603977298000000",
+    "event_type": "card.action.trigger",
+    "tenant_key": "xxxxxxx",
+    "app_id": "cli_xxxxxxxx"
+  },
+  "event": {
+    "operator": {
+      "tenant_key": "xxxxxxx",
+      "user_id": "xxxxxxx",
+      "open_id": "ou_xxx"
+    },
+    "token": "c-xxxx",
+    "action": {
+      "value": {
+        "key": "value"
+      },
+      "tag": "button",
+      "name": "form_submit",
+      "form_value": {
+        "multi_select_departments": [
+          "selectDemo1",
+          "selectDemo2"
+        ]
+      }
+    },
+    "host": "im_message",
+    "context": {
+      "open_message_id": "om_xxx",
+      "open_chat_id": "oc_xxx"
+    }
+  }
+}
+```
+
+## Example
+
+```json
 {
   "schema": "2.0",
   "body": {
     "elements": [
       {
-        "tag": "form", // The tag of the form container. The dropdown selection - multi-select component must be placed in the form container for use.
+        "tag": "form",
         "elements": [
           {
-            "tag": "multi_select_static", // Multi-select component tag.
-            "element_id": "custom_id", // Unique identifier for the operation component. Used to specify the component in related interface calls. Needs to be customized by the developer.
-            "margin": "0px 0px 0px 0px", // Component margin, default value is "0", supported range is [-99,99]px.
-            "type": "default", // Component border style. Default value is default.
-            "name": "multi_select_departments", // Custom unique identifier for the component in the form container. When the multi-select component is embedded in the form container, this property is effective and is used to identify which component's data the user submitted.
-            "required": true, // Whether the option is required. When the multi-select component is embedded in the form container, this property is available. Other situations will report an error or be ineffective.
-            "disabled": false, // Whether the option is disabled.
-            "placeholder": {
-              // Placeholder text inside the dropdown select component.
-              "tag": "plain_text",
-              "content": "Default placeholder text"
-            },
-            "width": "default", // Width of the dropdown select component.
-            "behaviors": [
-              { // Configure callback interaction for the dropdown select component.
-                "type": "callback",
-                "value": {
-                  // Callback interaction data. Supports string or object data types. The open platform SDK only supports object type callback interaction data.
-                  "key": "value"
-                }
-              }
-            ],
-            "selected_values": [], // Initial values of the options. The values of the array items need to correspond to options.value.
-            "options": [
-              // Option configuration
+            "tag": "column_set",
+            "flex_mode": "none",
+            "horizontal_spacing": "default",
+            "background_style": "default",
+            "columns": [
               {
-                "text": {
-                  // Option name
-                  "tag": "plain_text",
-                  "content": "I am an interactive component"
-                },
-                "icon": {
-                  // Add an icon as a prefix icon for the option. Supports custom or icon library icons.
-                  "tag": "standard_icon", // Icon type.
-                  "token": "chat-forbidden_outlined", // Icon token. Effective only when tag is standard_icon.
-                  "color": "orange", // Icon color. Effective only when tag is standard_icon.
-                  "img_key": "img_v2_38811724" // Image key. Effective only when tag is custom_icon.
-                },
-                "value": "selectDemo1" // Option callback value, supports string data type.
+                "tag": "column",
+                "elements": [
+                  {
+                    "tag": "multi_select_static",
+                    "type": "default",
+                    "name": "multi_select_departments",
+                    "placeholder": {
+                      "tag": "plain_text",
+                      "content": "默认提示文本"
+                    },
+                    "width": "fill",
+                    "required": true,
+                    "disabled": false,
+                    "selected_values": [],
+                    "behaviors": [
+                      {
+                        "type": "callback",
+                        "value": {
+                          "select_static": "click"
+                        }
+                      }
+                    ],
+                    "options": [
+                      {
+                        "text": {
+                          "tag": "plain_text",
+                          "content": "选项1"
+                        },
+                        "icon": {
+                          "tag": "standard_icon",
+                          "token": "chat-forbidden_outlined",
+                          "color": "orange"
+                        },
+                        "value": "selectDemo1"
+                      },
+                      {
+                        "text": {
+                          "tag": "plain_text",
+                          "content": "选项2"
+                        },
+                        "icon": {
+                          "tag": "standard_icon",
+                          "token": "chat-forbidden_outlined",
+                          "color": "orange"
+                        },
+                        "value": "selectDemo2"
+                      }
+                    ]
+                  }
+                ],
+                "width": "weighted",
+                "weight": 1
               }
-            ],
-            "confirm": {
-              // Secondary confirmation pop-up configuration
-              "title": {
-                "tag": "plain_text",
-                "content": "Pop-up title"
-              },
-              "text": {
-                "tag": "plain_text",
-                "content": "Pop-up body text"
-              }
-            }
+            ]
           },
           {
             "tag": "column_set",
+            "flex_mode": "none",
+            "background_style": "default",
+            "horizontal_spacing": "default",
             "columns": [
               {
                 "tag": "column",
                 "width": "auto",
+                "vertical_align": "top",
                 "elements": [
                   {
                     "tag": "button",
@@ -102,16 +238,15 @@ The complete JSON 2.0 structure of the multi-select dropdown menu component is a
                       "content": "提交"
                     },
                     "type": "primary",
-                    "width": "default",
-                    "form_action_type": "submit",
-                    "name": "Button_m8gyoz81"
+                    "action_type": "form_submit",
+                    "name": "Button_lrztw8x3"
                   }
-                ],
-                "vertical_align": "top"
+                ]
               },
               {
                 "tag": "column",
                 "width": "auto",
+                "vertical_align": "top",
                 "elements": [
                   {
                     "tag": "button",
@@ -120,636 +255,17 @@ The complete JSON 2.0 structure of the multi-select dropdown menu component is a
                       "content": "取消"
                     },
                     "type": "default",
-                    "width": "default",
-                    "form_action_type": "reset",
-                    "name": "Button_m8gyoz82"
+                    "action_type": "form_reset",
+                    "name": "Button_lrztw8x4"
                   }
-                ],
-                "vertical_align": "top"
+                ]
               }
             ]
           }
         ],
-        "padding": "4px 0px 4px 0px",
-        "margin": "0px 0px 0px 0px",
-        "name": "Form_m8gyoz80"
+        "name": "Form_lrztw8x2"
       }
     ]
   }
 }
-Field descriptions
-
-The field descriptions for the dropdown-select-multi-select component are as follows:
-
-Field	Required	Type	Default Value	Description
-
-
-tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The label of the component. For the dropdown-select-multi-select component, it has a fixed value of multi_select_static.
-
-
-
-
-element_id
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Unique identifier for the operation component. New attribute in JSON 2.0. Used to specify the component when calling related component interfaces. This value must be globally unique within the same card. Only letters, numbers, and underscores are allowed, must start with a letter, and must not exceed 20 characters.
-
-
-
-
-margin
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0
-
-	
-
-Margin of the component. New attribute in JSON 2.0. The value range is [-99,99]px. Optional values:
-
-Single value, such as "10px", representing a margin of 10 px on all four sides of the component.
-Double value, such as "4px 0", representing a margin of 4 px on the top and bottom, and 0 px on the left and right. Separated by space (unit can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", representing a margin of 4px, 12px, 4px, and 12px on the top, right, bottom, and left respectively. Separated by space.
-
-
-
-type
-
-	
-
-No
-
-	
-
-String
-
-	
-
-default
-
-	
-
-The border style of the component. Possible values:
-
-default: with border style
-text: plain text style without border
-
-
-
-name
-
-	
-
-Yes
-
-	
-
-string
-
-	
-
-Empty
-
-	
-
-The unique identifier of the component in the form container. When the multi-select component is embedded in a form container, this attribute is effective for identifying which component the user-submitted data belongs to.
-
-Note: When the multi-select component is nested in a form container, this field is required and must be unique within the card globally.
-
-
-
-
-placeholder
-
-	
-
-No
-
-	
-
-Object
-
-	
-
-Empty
-
-	
-
-The placeholder text inside the dropdown select component when no option is selected.
-
-
-
-
-└ tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-plain_text
-
-	
-
-The tag for the placeholder. Fixed value is plain_text.
-
-
-
-
-└ content
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Please select
-
-	
-
-The content of the placeholder text, supporting up to 100 characters.
-
-
-
-
-width
-
-	
-
-No
-
-	
-
-String
-
-	
-
-default
-
-	
-
-The width of the dropdown select component. Supports the following enumerations:
-
-default: default width:
-When the component has a border (i.e., "type":"default"), the default width value is fixed at 282 px.
-When the component does not have a border (i.e., "type":"text"), the component width adapts to the content width of the selector.
-fill: the component width will fill the width of the parent container.
-[100,∞)px: custom fixed numerical width, such as 200px. The minimum value is 100px. When exceeding the width of the parent container, it will be displayed according to the width of the parent container.
-
-
-
-required
-
-	
-
-No
-
-	
-
-Bool
-
-	
-
-true
-
-	
-
-Whether the options of the multi-select component are required. This property is available when the component is embedded in a form container. In other cases, it will result in an error or have no effect. Possible values:
-
-true: the options of the multi-select component are required. When the user clicks the "Submit" button of the form container without selecting multiple options, the frontend prompts "required items are not filled in", and no callback request is sent to the developer's server.
-false: the options of the multi-select component are optional. When the user clicks the "Submit" button of the form container without selecting multiple options, the data in the form container is still submitted.
-
-
-
-disabled
-
-	
-
-No
-
-	
-
-Bool
-
-	
-
-false
-
-	
-
-Whether to disable the multi-select component. Possible values:
-
-true: disable the multi-select component, displaying custom placeholder text or initial values of options, and end users cannot modify the interaction.
-false: the multi-select component remains available.
-
-
-
-selected_values
-
-	
-
-No
-
-	
-
-Array of string
-
-	
-
-Empty
-
-	
-
-The options selected by default in the multi-select component. The values of array items need to correspond to options.value.
-
-
-
-
-options
-
-	
-
-No
-
-	
-
-Array of objects
-
-	
-
-/
-
-	
-
-Option value configuration. Display options content in the order of the option array.
-
-
-
-
-└ text
-
-	
-
-Yes
-
-	
-
-Object
-
-	
-
-Empty
-
-	
-
-Option name. Display blank option when empty. The JSON structure is as follows, described using plain text objects:
-
-"text": {
-// Option name tag. Fixed value is plain_text.
-        "tag": "plain_text", 
-// Option name text.
-        "content": "I am an option"
-}
-
-
-
-└ icon
-
-	
-
-No
-
-	
-
-Object
-
-	
-
-/
-
-	
-
-Add an icon as a prefix icon for the option. Supports custom or using icons from the icon library.
-
-
-
-
-└ └ tag
-
-	
-
-No
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The tag type of the icon. Possible values:
-
-standard_icon: use icons from the icon library.
-custom_icon: use a custom image as the icon.
-
-
-
-└ └ token
-
-	
-
-No
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The token of the icon in the icon library. Effective when tag is standard_icon. Refer to the enumeration values for icons.
-
-
-
-
-└ └ color
-
-	
-
-No
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The color of the icon. Supports setting the color of linear and face icons (i.e., icons with outlined or filled at the end of the token). Effective when tag is standard_icon. Refer to the enumeration values for colors.
-
-
-
-
-└ └ img_key
-
-	
-
-No
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The image key of the custom prefix icon. Effective when tag is custom_icon.How to obtain the icon key: call the Upload Image interface to upload an image for sending messages, and obtain the image key in the return value.
-
-
-
-
-└ value
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-Custom option callback value. When the user clicks on the option of the interactive component, the value of value will be returned to the server receiving the callback data. You can subsequently process business logic based on the received value from the server.
-
-Note: Within the same selection component, the value of each option must be unique, otherwise the option clicked by the user cannot be identified.
-
-Callback structure
-
-When the user clicks the submit button of the form container, the request address you configured in the developer background will receive the callback data of the following structure. For more information, see Form container and Card callback communication (callback structure).
-
-  {
-      "schema": "2.0",
-      "header": { 
-          "event_id": "f7984f25108f8137722bb63cee927e66",
-          "token": "066zT6pS4QCbgj5Do145GfDbbagCHGgF",
-          "create_time": "1603977298000000",
-          "event_type": "card.action.trigger",
-          "tenant_key": "xxxxxxx",
-          "app_id": "cli_xxxxxxxx"
-      },
-      "event":{
-          "operator": {
-              "tenant_key": "xxxxxxx", 
-              "user_id": "xxxxxxx",    
-              "open_id": "ou_xxx"     
-          },
-          "token": "c-xxxx",
-          "action": { // The value of the return interaction configured by the "submit" button of the form container itself
-              "value": {
-                  "key": "value"
-               },
-              "tag": "button",
-              "name":"form_submit", // In the form container, the return attribute of the "submit" button component itself
-              "form_value":  { // The return value of each component in the form container
-              "multi_select_departments":[ // The custom identifier of the drop-down selection-multi-select component in the form container
-                     "selectDemo1", // The value of options.value, used to judge which option the user chooses
-                     "selectDemo2"               
-                 ] 
-              }
-          },
-          "host": "im_message", 
-          "context": {
-              "open_message_id":"om_xxx",
-              "open_chat_id":"oc_xxx"           
-          }  
-      }
-  }
-Sample code
-
-The following JSON 2.0 structure sample code can achieve the card effect shown in the image.
-
-{
-    "schema": "2.0",
-    "body": {
-        "elements": [
-            {
-                "tag": "form",
-                "elements": [
-                    {
-                        "tag": "column_set",
-                        "flex_mode": "none",
-                        "horizontal_spacing": "default",
-                        "background_style": "default",
-                        "columns": [
-                            {
-                                "tag": "column",
-                                "elements": [
-                                    {
-                                        "tag": "multi_select_static",
-                                        "type": "default",
-                                        "name": "multi_select_departments",
-                                        "placeholder": {
-                                            "tag": "plain_text",
-                                            "content": "默认提示文本"
-                                        },
-                                        "width": "fill",
-                                        "required": true,
-                                        "disabled": false,
-                                        "selected_values": [],
-                                        "behaviors": [
-                                            {
-                                                "type": "callback",
-                                                "value": {
-                                                    "select_static": "click"
-                                                }
-                                            }
-                                        ],
-                                        "options": [
-                                            {
-                                                "text": {
-                                                    "tag": "plain_text",
-                                                    "content": "选项1"
-                                                },
-                                                "icon": {
-                                                    "tag": "standard_icon",
-                                                    "token": "chat-forbidden_outlined",
-                                                    "color": "orange"
-                                                },
-                                                "value": "selectDemo1"
-                                            },
-                                            {
-                                                "text": {
-                                                    "tag": "plain_text",
-                                                    "content": "选项2"
-                                                },
-                                                "icon": {
-                                                    "tag": "standard_icon",
-                                                    "token": "chat-forbidden_outlined",
-                                                    "color": "orange"
-                                                },
-                                                "value": "selectDemo2"
-                                            }
-                                        ]
-                                    }
-                                ],
-                                "width": "weighted",
-                                "weight": 1
-                            }
-                        ]
-                    },
-                    {
-                        "tag": "column_set",
-                        "flex_mode": "none",
-                        "background_style": "default",
-                        "horizontal_spacing": "default",
-                        "columns": [
-                            {
-                                "tag": "column",
-                                "width": "auto",
-                                "vertical_align": "top",
-                                "elements": [
-                                    {
-                                        "tag": "button",
-                                        "text": {
-                                            "tag": "plain_text",
-                                            "content": "提交"
-                                        },
-                                        "type": "primary",
-                                        "action_type": "form_submit",
-                                        "name": "Button_lrztw8x3"
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "column",
-                                "width": "auto",
-                                "vertical_align": "top",
-                                "elements": [
-                                    {
-                                        "tag": "button",
-                                        "text": {
-                                            "tag": "plain_text",
-                                            "content": "取消"
-                                        },
-                                        "type": "default",
-                                        "action_type": "form_reset",
-                                        "name": "Button_lrztw8x4"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                "name": "Form_lrztw8x2"
-            }
-        ]
-    }
-}
-Previous:Single select dropdown menu
-Next:Single select user picker
-Need help with a problem?
-Submit feedback
+```

@@ -1,70 +1,55 @@
-# Single select user picker
+# Single Select Person Picker
 
 > Source: <https://open.larksuite.com/document/uAjLw4CM/ukzMukzMukzM/feishu-cards/card-json-v2-components/interactive-components/single-select-user-picker>
 
-Developer GuidesMessage cardsBuild card with JSONCard JSON 2.0 version componentsInteractive componentsSingle select user picker
-Single select user picker
-Copy Page
-Last updated on 2025-06-27
-The contents of this article
-Nesting rules
-Component properties
-JSON structure
-Field description
-Callback Structure
-Sample code
+The single select person picker component allows adding specified users as single-choice options. It is an interactive component.
 
-The Personnel Selection - Single Choice Component supports adding specified personnel as single-choice options, and it is an interactive component.
+## Notes
 
-This document introduces the JSON 2.0 structure of the single-select user picker component. To view the historical JSON 1.0 structure, refer to Single-select User Picker.
+- The `initial_option` property is not currently supported in the Card Builder Tool.
+- When the `options` array is empty or all `value` entries are invalid, the candidate options default to all members in the conversation where the card is located.
 
-Nesting rules
+## Nesting Rules
 
-The single-select user picker component supports nesting within columns, form containers, folding panels, loop containers, and interactive containers. In the builder tool, the single-select user picker component does not yet support nesting within interactive containers.
+The single select person picker supports nesting within columns, form containers, folding panels, loop containers, and interactive containers. In the Card Builder Tool, nesting within interactive containers is not yet supported.
 
-Component properties
-JSON structure
+## JSON Structure
 
-The complete JSON 2.0 structure of the single-select user picker component is as follows:
-
+```json
 {
     "schema": "2.0",
     "body": {
         "elements": [
             {
-                "tag": "select_person", // Component tag.
-                "element_id": "custom_id", // Unique identifier for the operation component. Used to specify the component in related interface calls. Needs to be customized by the developer.
-                "margin": "0px 0px 0px 0px", // Component margin, default value is "0", supported range is [-99,99]px.
-                "type": "text", // Component border style. Default value is default.
-                "required": true, // Whether the option is required.
-                "disabled": false, // Whether the option is disabled.
-                "initial_option": "ou_48d0958ee4b2ab3eaf0b5f6c968xxxxx", // Initial content displayed by the option. Default is empty.
+                "tag": "select_person",
+                "element_id": "custom_id",
+                "margin": "0px 0px 0px 0px",
+                "type": "text",
+                "required": true,
+                "disabled": false,
+                "initial_option": "ou_48d0958ee4b2ab3eaf0b5f6c968xxxxx",
                 "placeholder": {
-                    // Placeholder text inside the user picker component.
                     "tag": "plain_text",
                     "content": "Default placeholder text"
                 },
-                "width": "default", // Width of the dropdown select component.
+                "width": "default",
                 "behaviors": [
-                    { // Configure callback interaction for the component.
+                    {
                         "type": "callback",
                         "value": {
-                            // Callback interaction data. Supports string or object data types. The open platform SDK only supports object type callback interaction data.
                             "key": "value"
                         }
                     }
                 ],
                 "options": [
-                    // Option configuration, only supports adding candidate users' open_id.
                     {
-                        "value": "ou_48d0958ee4b2ab3eaf0b5f6c968xxxxx" // Candidate user's open_id.
+                        "value": "ou_48d0958ee4b2ab3eaf0b5f6c968xxxxx"
                     },
                     {
-                        "value": "ou_f9d24af786a14340721288cda6axxxxx" // Candidate user's open_id.
+                        "value": "ou_f9d24af786a14340721288cda6axxxxx"
                     }
                 ],
                 "confirm": {
-                    // Secondary confirmation popup configuration.
                     "title": {
                         "tag": "plain_text",
                         "content": "Popup title"
@@ -78,458 +63,45 @@ The complete JSON 2.0 structure of the single-select user picker component is as
         ]
     }
 }
-Field description
-
-The field description of the Personnel Selection - Single Choice Component is as follows.
-
-Field	Required	Type	Default Value	Description
-
-
-tag
-
-	
-
-Yes
-
-	
-
-string
-
-	
-
-/
-
-	
-
-The tag of the component. The Personnel Selection - Single Choice Component takes the fixed value select_person.
-
-
-
-
-element_id
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Unique identifier for the operation component. New attribute in JSON 2.0. Used to specify the component when calling related component interfaces. This value must be globally unique within the same card. Only letters, numbers, and underscores are allowed, must start with a letter, and must not exceed 20 characters.
-
-
-
-
-margin
-
-	
-
-No
-
-	
-
-String
-
-	
-
-0
-
-	
-
-Margin of the component. New attribute in JSON 2.0. The value range is [-99,99]px. Optional values:
-
-Single value, such as "10px", representing a margin of 10 px on all four sides of the component.
-Double value, such as "4px 0", representing a margin of 4 px on the top and bottom, and 0 px on the left and right. Separated by space (unit can be omitted when the margin is 0).
-Multiple values, such as "4px 0 4px 0", representing a margin of 4px, 12px, 4px, and 12px on the top, right, bottom, and left respectively. Separated by space.
-
-
-
-type
-
-	
-
-No
-
-	
-
-string
-
-	
-
-default
-
-	
-
-The border style of the component. Optional values:
-
-default: With border style
-text: Pure text style without border
-
-
-
-required
-
-	
-
-No
-
-	
-
-Boolean
-
-	
-
-false
-
-	
-
-Whether the content of the single-choice component is required. This property takes effect when the component is nested in a form container. Possible values:
-
-true: The single-choice component is required. When the user clicks "Submit" of the form container, if the single-choice component is not filled in, the front end prompts "There are required items not filled in", and no back-pass request will be initiated to the developer's server.
-false: The single-choice component is optional. When the user clicks "Submit" of the form container, if the single-choice component is not filled in, the data in the form container is still submitted.
-
-
-
-disabled
-
-	
-
-No
-
-	
-
-Boolean
-
-	
-
-false
-
-	
-
-Whether to disable this single-choice component. Optional values:
-
-true: Disable the single-choice component
-false: The single-choice component remains available
-
-
-
-initial_option
-
-	
-
-No
-
-	
-
-String
-
-	
-
-empty
-
-	
-
-The initial personnel's open_id displayed in the option. The value of open_id must match the open_id of one of the candidate users in options; otherwise, the option will not take effect.
-
-Note: The initial_option property is currently not supported in the Card Construction Tool.
-
-
-
-
-placeholder
-
-	
-
-No
-
-	
-
-object
-
-	
-
-/
-
-	
-
-The placeholder text in the Personnel Selection Component.
-
-
-
-
-└ tag
-
-	
-
-Yes
-
-	
-
-string
-
-	
-
-plain_text
-
-	
-
-Placeholder prompt tag. The fixed value is plain_text.
-
-
-
-
-└ content
-
-	
-
-No
-
-	
-
-String
-
-	
-
-/
-
-	
-
-The content of the placeholder text, supporting up to 100 characters.
-
-
-
-
-width
-
-	
-
-No
-
-	
-
-String
-
-	
-
-default
-
-	
-
-The width of the Personnel Selection Component. Supports the following enumeration values:
-
-default: Default width
-fill: Maximum supported width of the card
-[100,∞)px: Custom width. When it exceeds the card width, it will be displayed at the maximum supported width
-
-
-
-options
-
-	
-
-No
-
-	
-
-Array of objects
-
-	
-
-/
-
-	
-
-Option value configuration. The option content is displayed in the order of the option array.
-
-
-
-
-└ value
-
-	
-
-No
-
-	
-
-String
-
-	
-
-Empty
-
-	
-
-Option configuration, only supports adding the open_id of the candidate user. Learn more, refer to How to get different user IDs.
-
-Note: When the options array is empty, or all the values of value are invalid, the candidate options are displayed as all member options in the conversation where the card is located.
-
-
-
-
-confirm
-
-	
-
-No
-
-	
-
-Struct
-
-	
-
-This property does not take effect by default.
-
-	
-
-Configuration of the secondary confirmation pop-up window. It refers to the secondary confirmation pop-up prompt that pops up when the user submits; only after the user clicks confirm, the entered content is submitted. This field provides confirm and cancel buttons by default, you only need to configure the title and content of the pop-up window.
-
-Note: The confirm field only triggers the secondary confirmation pop-up window when the user clicks the button containing the submit attribute.
-
-
-
-
-confirm.title
-
-	
-
-Yes
-
-	
-
-Struct
-
-	
-
-/
-
-	
-
-Title of the secondary confirmation pop-up window.
-
-
-
-
-confirm.title.tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-plain_text
-
-	
-
-Label of the text of the secondary confirmation pop-up window title. The fixed value is plain_text.
-
-
-
-
-confirm.title.content
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-Content of the secondary confirmation pop-up window title.
-
-
-
-
-confirm.text
-
-	
-
-Yes
-
-	
-
-Struct
-
-	
-
-/
-
-	
-
-Text content of the secondary confirmation pop-up window.
-
-
-
-
-confirm.text.tag
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-plain_text
-
-	
-
-Label of the text of the secondary confirmation pop-up window. The fixed value is plain_text.
-
-
-
-
-confirm.text.content
-
-	
-
-Yes
-
-	
-
-String
-
-	
-
-/
-
-	
-
-Specific content of the text of the secondary confirmation pop-up window.
-
-Callback Structure
-
-After successfully configuring the interaction for the component, when the user interacts with the component, the request address you configured in the developer backend will receive callback data.
-
-If you add a new card back-pass interaction callback(card.action.trigger), you can refer to Card Back-pass Interaction to understand the callback structure.
-If you add an old card back-pass interaction callback(card.action.trigger_v1), you can refer to Message Card Back-pass Interaction (Old) to understand the callback structure.
-Sample code
-
-The following JSON 2.0 structure example code can achieve the card effect shown in the figure. You need to fill in the actual user's user_id, union_id, or open_id.
-
+```
+
+## Fields
+
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `tag` | Yes | String | — | Component tag. Fixed value `select_person`. |
+| `element_id` | No | String | — | Unique identifier for the component (JSON 2.0). Used to specify the component in related interface calls. Must be globally unique within the card. Only letters, numbers, and underscores allowed; must start with a letter; max 20 characters. |
+| `margin` | No | String | `0` | Component margin (JSON 2.0). Value range is `[-99,99]px`. Accepts a single value (e.g. `"10px"`), double value (e.g. `"4px 0"`), or four values (e.g. `"4px 0 4px 0"`) for top, right, bottom, left. |
+| `type` | No | String | `default` | Border style. `default`: with border. `text`: plain text style without border. |
+| `required` | No | Boolean | `false` | Whether selection is required. Only takes effect inside a form container. When `true`, submitting the form without a selection shows a "required items not filled in" prompt and prevents submission. |
+| `disabled` | No | Boolean | `false` | Whether to disable the component. `true`: disabled. `false`: enabled. |
+| `initial_option` | No | String | — | The `open_id` of the initially selected person. Must match one of the `open_id` values in `options`; otherwise it has no effect. |
+| `placeholder` | No | Object | — | Placeholder text displayed inside the picker when no option is selected. |
+| `placeholder.tag` | Yes | String | `plain_text` | Fixed value `plain_text`. |
+| `placeholder.content` | No | String | — | Placeholder text content. Max 100 characters. |
+| `width` | No | String | `default` | Component width. `default`: default width. `fill`: maximum card width. `[100,...)px`: custom width (displays at max width if it exceeds the card). |
+| `options` | No | Array of objects | — | Option configuration. Options are displayed in array order. |
+| `options[].value` | No | String | — | The candidate user's `open_id`. See [How to get different user IDs](https://open.larksuite.com/document). |
+| `confirm` | No | Object | — | Secondary confirmation popup configuration. Only triggers when the user clicks a button with the submit attribute. |
+| `confirm.title` | Yes | Object | — | Popup title. |
+| `confirm.title.tag` | Yes | String | `plain_text` | Fixed value `plain_text`. |
+| `confirm.title.content` | Yes | String | — | Title text content. |
+| `confirm.text` | Yes | Object | — | Popup body text. |
+| `confirm.text.tag` | Yes | String | `plain_text` | Fixed value `plain_text`. |
+| `confirm.text.content` | Yes | String | — | Body text content. |
+
+## Callback Structure
+
+After configuring interactions for the component, user interactions will send callback data to your configured request address.
+
+- If you use the new card callback interaction (`card.action.trigger`), refer to the Card Callback Interaction documentation for the callback structure.
+- If you use the old card callback interaction (`card.action.trigger_v1`), refer to the Message Card Callback Interaction (Old) documentation.
+
+## Example
+
+Replace the `open_id` values with actual user IDs.
+
+```json
 {
     "schema": "2.0",
     "body": {
@@ -566,7 +138,4 @@ The following JSON 2.0 structure example code can achieve the card effect shown 
         ]
     }
 }
-Previous:Multi-select dropdown menu
-Next:Multi-select user picker
-Need help with a problem?
-Submit feedback
+```

@@ -527,6 +527,83 @@ func buildTestCases() []testCase {
 			},
 		},
 		{
+			Name: "i18n content — markdown and div plain_text",
+			Card: larkcard.Card{
+				Header: larkcard.Header{
+					Title:    larkcard.PlainText("E2E Test: i18n Content"),
+					Template: larkcard.Orange,
+				},
+				Body: larkcard.Body{
+					Elements: larkcard.Elements{
+						&larkcard.Markdown{
+							Content: "**会议室**\n北京-xxx-F1",
+							I18nContent: map[string]string{
+								"en_us": "**Room**\nBeijing-xxx-F1",
+								"ja_jp": "**会議室**\n北京-xxx-F1",
+							},
+						},
+						&larkcard.Div{
+							Text: &larkcard.Text{
+								Tag:     "plain_text",
+								Content: "签到时间到，你可以签到了",
+								I18nContent: map[string]string{
+									"en_us": "It's time! You can check in now",
+									"ja_jp": "チェックインの時間です",
+								},
+								TextSize: larkcard.TextSizeNormal,
+							},
+							Icon: &larkcard.Icon{
+								Tag:   larkcard.StandardIcon,
+								Token: "calendar_outlined",
+								Color: larkcard.Orange,
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			Name: "i18n img_key and default_value",
+			Card: larkcard.Card{
+				Header: larkcard.Header{
+					Title:    larkcard.PlainText("E2E Test: i18n img_key & default_value"),
+					Template: larkcard.Turquoise,
+				},
+				Body: larkcard.Body{
+					Elements: larkcard.Elements{
+						&larkcard.Image{
+							ImgKey: "img_v3_02ce_257576e4-7fce-4eab-9173-1db6655ab28g",
+							I18nImgKey: map[string]string{
+								"en_us": "img_v3_02ce_0980b834-4ad8-45ce-b953-40375e8c19fg",
+							},
+							Alt:       larkcard.PlainText("签到图片"),
+							ScaleType: "fit_horizontal",
+						},
+						&larkcard.Form{
+							Name: "i18n_form",
+							Elements: larkcard.Elements{
+								&larkcard.Input{
+									Name:         "note",
+									DefaultValue: "默认备注",
+									I18nDefaultValue: map[string]string{
+										"en_us": "Default note",
+										"ja_jp": "デフォルトメモ",
+									},
+									Placeholder: larkcard.PlainText("请输入备注"),
+								},
+								&larkcard.Button{
+									Text:           larkcard.PlainText("Submit"),
+									Type:           larkcard.ButtonPrimary,
+									FormActionType: larkcard.FormSubmit,
+									Name:           "submit",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		{
 			Name: "kitchen sink — mixed elements",
 			Card: buildKitchenSinkCard(),
 		},

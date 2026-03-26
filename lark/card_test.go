@@ -581,6 +581,231 @@ func TestHeaderSubtitleAndIcon(t *testing.T) {
 	}
 }
 
+// ---- i18n content tests ----
+
+func TestMarkdownI18nContent(t *testing.T) {
+	elems := Elements{
+		&Markdown{
+			Content: "**粗体**",
+			I18nContent: map[string]string{
+				"en_us": "**Bold**",
+				"ja_jp": "**太字**",
+			},
+		},
+	}
+
+	arr := mustMarshalElements(t, elems)
+	md := arr[0].(map[string]any)
+	if md["tag"] != "markdown" {
+		t.Errorf("tag = %v, want markdown", md["tag"])
+	}
+	if md["content"] != "**粗体**" {
+		t.Errorf("content = %v", md["content"])
+	}
+	i18n := md["i18n_content"].(map[string]any)
+	if i18n["en_us"] != "**Bold**" {
+		t.Errorf("en_us = %v", i18n["en_us"])
+	}
+	if i18n["ja_jp"] != "**太字**" {
+		t.Errorf("ja_jp = %v", i18n["ja_jp"])
+	}
+}
+
+func TestDivTextI18nContent(t *testing.T) {
+	elems := Elements{
+		&Div{
+			Text: &Text{
+				Tag:     "plain_text",
+				Content: "签到时间到",
+				I18nContent: map[string]string{
+					"en_us": "It's time to check in",
+				},
+			},
+		},
+	}
+
+	arr := mustMarshalElements(t, elems)
+	div := arr[0].(map[string]any)
+	if div["tag"] != "div" {
+		t.Errorf("tag = %v, want div", div["tag"])
+	}
+	text := div["text"].(map[string]any)
+	if text["content"] != "签到时间到" {
+		t.Errorf("content = %v", text["content"])
+	}
+	i18n := text["i18n_content"].(map[string]any)
+	if i18n["en_us"] != "It's time to check in" {
+		t.Errorf("en_us = %v", i18n["en_us"])
+	}
+}
+
+func TestImageI18nImgKey(t *testing.T) {
+	elems := Elements{
+		&Image{
+			ImgKey: "img_v3_default",
+			I18nImgKey: map[string]string{
+				"en_us": "img_v3_en",
+				"ja_jp": "img_v3_ja",
+			},
+			Alt: PlainText("photo"),
+		},
+	}
+
+	arr := mustMarshalElements(t, elems)
+	img := arr[0].(map[string]any)
+	if img["tag"] != "img" {
+		t.Errorf("tag = %v, want img", img["tag"])
+	}
+	if img["img_key"] != "img_v3_default" {
+		t.Errorf("img_key = %v", img["img_key"])
+	}
+	i18n := img["i18n_img_key"].(map[string]any)
+	if i18n["en_us"] != "img_v3_en" {
+		t.Errorf("en_us = %v", i18n["en_us"])
+	}
+	if i18n["ja_jp"] != "img_v3_ja" {
+		t.Errorf("ja_jp = %v", i18n["ja_jp"])
+	}
+}
+
+func TestIconI18nImgKey(t *testing.T) {
+	elems := Elements{
+		&Div{
+			Text: PlainText("with icon"),
+			Icon: &Icon{
+				Tag:    CustomIcon,
+				ImgKey: "img_icon_default",
+				I18nImgKey: map[string]string{
+					"en_us": "img_icon_en",
+				},
+			},
+		},
+	}
+
+	arr := mustMarshalElements(t, elems)
+	div := arr[0].(map[string]any)
+	icon := div["icon"].(map[string]any)
+	if icon["img_key"] != "img_icon_default" {
+		t.Errorf("img_key = %v", icon["img_key"])
+	}
+	i18n := icon["i18n_img_key"].(map[string]any)
+	if i18n["en_us"] != "img_icon_en" {
+		t.Errorf("en_us = %v", i18n["en_us"])
+	}
+}
+
+func TestImageItemI18nImgKey(t *testing.T) {
+	elems := Elements{
+		&MultiImageLayout{
+			CombinationMode: "bisect",
+			ImgList: []ImageItem{
+				{
+					ImgKey: "img_item_default",
+					I18nImgKey: map[string]string{
+						"en_us": "img_item_en",
+					},
+				},
+			},
+		},
+	}
+
+	arr := mustMarshalElements(t, elems)
+	layout := arr[0].(map[string]any)
+	imgList := layout["img_list"].([]any)
+	item := imgList[0].(map[string]any)
+	if item["img_key"] != "img_item_default" {
+		t.Errorf("img_key = %v", item["img_key"])
+	}
+	i18n := item["i18n_img_key"].(map[string]any)
+	if i18n["en_us"] != "img_item_en" {
+		t.Errorf("en_us = %v", i18n["en_us"])
+	}
+}
+
+func TestImagePickerOptionI18nImgKey(t *testing.T) {
+	elems := Elements{
+		&ImagePicker{
+			Name: "picker",
+			Options: []ImagePickerOption{
+				{
+					ImgKey: "img_opt_default",
+					I18nImgKey: map[string]string{
+						"en_us": "img_opt_en",
+					},
+					Value: "opt1",
+				},
+			},
+		},
+	}
+
+	arr := mustMarshalElements(t, elems)
+	picker := arr[0].(map[string]any)
+	opts := picker["options"].([]any)
+	opt := opts[0].(map[string]any)
+	if opt["img_key"] != "img_opt_default" {
+		t.Errorf("img_key = %v", opt["img_key"])
+	}
+	i18n := opt["i18n_img_key"].(map[string]any)
+	if i18n["en_us"] != "img_opt_en" {
+		t.Errorf("en_us = %v", i18n["en_us"])
+	}
+}
+
+func TestInputI18nDefaultValue(t *testing.T) {
+	elems := Elements{
+		&Input{
+			Name:         "username",
+			DefaultValue: "默认值",
+			I18nDefaultValue: map[string]string{
+				"en_us": "Default value",
+				"ja_jp": "デフォルト値",
+			},
+			Placeholder: PlainText("请输入"),
+		},
+	}
+
+	arr := mustMarshalElements(t, elems)
+	input := arr[0].(map[string]any)
+	if input["tag"] != "input" {
+		t.Errorf("tag = %v, want input", input["tag"])
+	}
+	if input["default_value"] != "默认值" {
+		t.Errorf("default_value = %v", input["default_value"])
+	}
+	i18n := input["i18n_default_value"].(map[string]any)
+	if i18n["en_us"] != "Default value" {
+		t.Errorf("en_us = %v", i18n["en_us"])
+	}
+	if i18n["ja_jp"] != "デフォルト値" {
+		t.Errorf("ja_jp = %v", i18n["ja_jp"])
+	}
+}
+
+func TestI18nFieldsOmittedWhenNil(t *testing.T) {
+	elems := Elements{
+		&Markdown{Content: "no i18n"},
+		&Image{ImgKey: "img_key"},
+		&Input{Name: "test", DefaultValue: "val"},
+	}
+
+	arr := mustMarshalElements(t, elems)
+
+	md := arr[0].(map[string]any)
+	if _, ok := md["i18n_content"]; ok {
+		t.Error("Markdown: i18n_content should be omitted when nil")
+	}
+
+	img := arr[1].(map[string]any)
+	if _, ok := img["i18n_img_key"]; ok {
+		t.Error("Image: i18n_img_key should be omitted when nil")
+	}
+
+	input := arr[2].(map[string]any)
+	if _, ok := input["i18n_default_value"]; ok {
+		t.Error("Input: i18n_default_value should be omitted when nil")
+	}
+}
+
 // ---- Helper function tests ----
 
 func TestHelperMd(t *testing.T) {

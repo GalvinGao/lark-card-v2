@@ -22,9 +22,10 @@ func (*ImagePicker) cardTag() string { return "select_img" }
 
 // ImagePickerOption is a single image option in an ImagePicker.
 type ImagePickerOption struct {
-	ImgKey       string `json:"img_key,omitempty"`
-	Value        string `json:"value,omitempty"`
-	Disabled     bool   `json:"disabled,omitempty"`
-	DisabledTips *Text  `json:"disabled_tips,omitempty"`
-	HoverTips    *Text  `json:"hover_tips,omitempty"`
+	ImgKey       string            `json:"img_key,omitempty"`
+	I18nImgKey   map[string]string `json:"i18n_img_key,omitempty"`
+	Value        string            `json:"value,omitempty"`
+	Disabled     bool              `json:"disabled,omitempty"`
+	DisabledTips *Text             `json:"disabled_tips,omitempty"`
+	HoverTips    *Text             `json:"hover_tips,omitempty"`
 }

@@ -35,4 +35,4 @@ type Markdown struct {
 	Icon        *Icon             `json:"icon,omitempty"`
 }
 
-func (*Markdown) cardTag() string { return "markdown" }
+func (*Markdown) cardTag() string { return "markdown" } //nolint:goconst // component tag, not DataTypeMarkdown
